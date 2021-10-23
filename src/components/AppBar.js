@@ -1,17 +1,21 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+
+const CustomToolBar = styled(Toolbar)(({ theme }) => ({
+  // backgroundColor: theme.globalColor, //can also customize components using theme variables
+}));
 
 export default function ButtonAppBar() {
   return (
-    <Box sx={{ flexGrow: 1,width:1 }}>
+    <Box sx={{ flexGrow: 1, width: 1, mb: 4 }}>
       <AppBar position="static">
-        <Toolbar>
+        <CustomToolBar>
           {/* <IconButton
             size="large"
             edge="start"
@@ -24,9 +28,16 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Job Portal
           </Typography>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Jobs</Button>
-        </Toolbar>
+          <Button component={Link} to="/login" color="inherit">
+            Login
+          </Button>
+          <Button component={Link} to="/signup" color="inherit">
+            Signup
+          </Button>
+          <Button component={Link} to="/jobs" color="inherit">
+            Jobs
+          </Button>
+        </CustomToolBar>
       </AppBar>
     </Box>
   );
