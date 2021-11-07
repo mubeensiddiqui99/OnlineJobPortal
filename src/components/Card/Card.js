@@ -6,16 +6,24 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 export default function CardWrapper({ jobid, title, desc, user }) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const [prompt, setprompt] = useState("");
   useEffect(() => {
-    setprompt(user === "employee" ? "Apply" : "Stats");
+    if (user === "employee") {
+      setprompt("Apply");
+    } else if (user === "employer") {
+      setprompt("Stats");
+    }
   }, [user]);
   return (
     <Card
       sx={{
-        maxWidth: "70%",
+        maxWidth: !matches ? "70%" : "100%",
         marginLeft: "auto",
         marginRight: "auto",
         marginTop: 3,

@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
+import SearchJobs from "./components/SearchJobs/SearchJobs";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -43,6 +44,7 @@ function App() {
   const [profile, setProfile] = useState({
     //dummy state.It should be empty, requires database for login info to be  correct here
     email: "fgbf",
+    password: "",
     name: "Adnan",
     age: "14",
     lastSchool: "dvdf",
@@ -50,9 +52,9 @@ function App() {
     type: "employee",
     recentJobsApplied: sample,
   });
-
   const { recentJobsApplied, ...userInfo } = profile;
 
+  // console.log({ userInfo });
   return (
     <div className="App">
       <Router>
@@ -62,6 +64,7 @@ function App() {
             loggedIn={loggedIn}
             drawerWidth={drawerWidth}
             mobileOpen={mobileOpen}
+            name={userInfo.name}
           />
           <Grid container spacing={2}>
             {loggedIn && (
@@ -107,10 +110,11 @@ function App() {
                   <Resume user={user} />
                 </Route>
                 <Route path="/jobs">
+                  <SearchJobs />
                   <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
                 </Route>
                 <Route path="/settings">
-                  <Settings loggedIn={loggedIn} />
+                  <Settings loggedIn={loggedIn} setProfile={setProfile} />
                 </Route>
                 <Route path="/portal">
                   <Portal
@@ -120,6 +124,10 @@ function App() {
                     jobs={jobs}
                   />
                   {/*for employer only*/}
+                </Route>
+                <Route path="/">
+                  <SearchJobs />
+                  <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
                 </Route>
               </Switch>
               {/* </Item> */}

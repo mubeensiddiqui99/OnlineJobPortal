@@ -9,12 +9,17 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 const CustomToolBar = styled(Toolbar)(({ theme }) => ({
   // backgroundColor: theme.globalColor, //can also customize components using theme variables
 }));
 
-export default function ButtonAppBar({ loggedIn, drawerWidth, setMobileOpen }) {
+export default function ButtonAppBar({
+  loggedIn,
+  drawerWidth,
+  setMobileOpen,
+  name,
+}) {
   const handleDrawerToggle = () => {
     setMobileOpen((mobileOpen) => !mobileOpen);
   };
@@ -30,16 +35,22 @@ export default function ButtonAppBar({ loggedIn, drawerWidth, setMobileOpen }) {
         mb: 2,
       }}
     >
-      <CustomToolBar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: "none" } }}
-        >
-          <MenuIcon />
-        </IconButton>
+      <CustomToolBar
+        sx={{
+          flexWrap: "wrap",
+        }}
+      >
+        {loggedIn && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         {/* <IconButton
             size="large"
             edge="start"
@@ -52,6 +63,9 @@ export default function ButtonAppBar({ loggedIn, drawerWidth, setMobileOpen }) {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Job Portal
         </Typography>
+        <Button component={Link} to="/" color="inherit">
+          Home
+        </Button>
         <Button
           component={Link}
           to="/login"
@@ -87,6 +101,17 @@ export default function ButtonAppBar({ loggedIn, drawerWidth, setMobileOpen }) {
         >
           Settings
         </Button>
+        {loggedIn && (
+          <Link
+            to="/settings"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            <IconButton>
+              <AccountCircleRoundedIcon />
+            </IconButton>
+            {name}
+          </Link>
+        )}
       </CustomToolBar>
     </AppBar>
     // </Box>

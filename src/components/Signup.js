@@ -57,7 +57,7 @@ export default function Signup({ setLoggedIn, loggedIn, setUser, setProfile }) {
         flexDirection: "column",
         justifyContent: "space-between",
       }}
-      noValidate
+      // noValidate
       autoComplete="off"
       onSubmit={handleSubmit}
     >

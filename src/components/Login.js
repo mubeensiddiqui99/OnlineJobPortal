@@ -51,7 +51,7 @@ export default function Login({ setLoggedIn, loggedIn, setUser }) {
       sx={{
         "& .MuiTextField-root": { m: 4, width: "50%" },
       }}
-      noValidate
+      // noValidate
       autoComplete="off"
       onSubmit={handleSubmit}
     >
