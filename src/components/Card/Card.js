@@ -13,7 +13,14 @@ export default function CardWrapper({ jobid, title, desc, user }) {
     setprompt(user === "employee" ? "Apply" : "Stats");
   }, [user]);
   return (
-    <Card sx={{ maxWidth: "80%", m: 3 }}>
+    <Card
+      sx={{
+        maxWidth: "70%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: 3,
+      }}
+    >
       <CardMedia
         component="img"
         alt="green iguana"

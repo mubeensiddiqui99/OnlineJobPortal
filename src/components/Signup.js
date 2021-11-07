@@ -8,16 +8,23 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function Signup({ setLoggedIn, loggedIn, setUser }) {
+export default function Signup({ setLoggedIn, loggedIn, setUser, setProfile }) {
   const history = useHistory();
+  // console.log({ inputs });
+  // if (inputs === undefined) {
+  //   inputs = {};
+  // }
+
+  const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
     name: "",
+    age: "",
+    lastSchool: "",
+    lastQualification: "",
     type: "",
   });
-  const [error, setError] = useState("");
-
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -26,6 +33,8 @@ export default function Signup({ setLoggedIn, loggedIn, setUser }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    // console.log({ inputs });
+    setProfile(inputs);
     setLoggedIn(true);
     setError("");
     setUser(inputs.type);
@@ -68,15 +77,7 @@ export default function Signup({ setLoggedIn, loggedIn, setUser }) {
           name="email"
         />
         <br />
-        <TextField
-          required
-          id="outlined-required"
-          label="Name"
-          value={inputs.email || ""}
-          onChange={handleChange}
-          name="email"
-        />
-        <br />
+
         <TextField
           required
           id="outlined-password-input"
@@ -86,6 +87,25 @@ export default function Signup({ setLoggedIn, loggedIn, setUser }) {
           value={inputs.password || ""}
           onChange={handleChange}
           name="password"
+        />
+        <br />
+        <TextField
+          required
+          id="outlined-required"
+          label="Name"
+          value={inputs.name || ""}
+          onChange={handleChange}
+          name="name"
+        />
+        <br />
+        <TextField
+          required
+          type="number"
+          id="outlined-required"
+          label="Age"
+          value={inputs.age || ""}
+          onChange={handleChange}
+          name="age"
         />
       </div>
       <FormControl fullWidth>
@@ -102,13 +122,29 @@ export default function Signup({ setLoggedIn, loggedIn, setUser }) {
           <MenuItem value={"employee"}>Employee</MenuItem>
         </Select>
       </FormControl>
-
+      <br />
+      <TextField
+        required
+        id="outlined-required"
+        label="Last School"
+        value={inputs.lastSchool || ""}
+        onChange={handleChange}
+        name="lastSchool"
+      />
+      <TextField
+        required
+        id="outlined-required"
+        label="Last Qualification"
+        value={inputs.lastQualification || ""}
+        onChange={handleChange}
+        name="lastQualification"
+      />
       <Button
         style={{ marginTop: "3rem" }}
         variant="contained"
         onClick={handleSubmit}
       >
-        Login
+        Sign Up
       </Button>
       <p>{error}</p>
     </Box>

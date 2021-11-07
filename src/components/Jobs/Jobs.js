@@ -6,13 +6,15 @@ export default function Jobs({ loggedIn, jobs, user }) {
   if (!loggedIn) {
     return <div>Please log in..</div>;
   }
+
   return (
     <div className="jobs-main">
       {jobs?.map((job, i) => {
+        console.log(job.jobId);
         return (
           <CardWrapper
-            jobid={i}
-            key={i}
+            jobid={job.jobId}
+            key={job.jobId}
             title={job.title}
             desc={job.desc}
             user={user}
