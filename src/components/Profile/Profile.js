@@ -1,14 +1,22 @@
 import { Divider, ListItem } from "@mui/material";
 import List from "@mui/material/List";
-import React, { Fragment } from "react";
+import { LoggedInContext, ProfileContext, UserContext } from "../../App";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "../Avatar/Avatar";
 
-export default function Profile({ userInfo, recentJobsApplied, loggedIn }) {
+export default function Profile() {
+  const [profile] = useContext(ProfileContext);
+  const [loggedIn] = useContext(LoggedInContext);
+  const [user] = useContext(UserContext);
+  // console.log({ profile, ProfileContext });
   if (!loggedIn) {
     return null;
   }
-  // console.log({ userInfo });
+
+  // console.log({ profile });
+
+  // console.log({ profile });
   return (
     <div style={{ textAlign: "center" }}>
       <Avatar />
@@ -22,34 +30,71 @@ export default function Profile({ userInfo, recentJobsApplied, loggedIn }) {
           );
         })}
          */}
-        <ListItem>Name: {userInfo.name}</ListItem>
-        <ListItem>Age: {userInfo.age}</ListItem>
-        <ListItem>Email: {userInfo.email}</ListItem>
-        <ListItem>Last School: {userInfo.lastSchool}</ListItem>
-        <ListItem>Last Qualification: {userInfo.lastQualification}</ListItem>
-        {recentJobsApplied && (
+        {user === "employee" ? (
           <Fragment>
-            <ListItem>Recent Jobs Applied:</ListItem>
+            <ListItem>Name: {profile.name}</ListItem>
+            <ListItem>Age: {profile.age}</ListItem>
+            <ListItem>Email: {profile.email}</ListItem>
+            <ListItem>Last School: {profile.lastSchool}</ListItem>
+            <ListItem>Last Qualification: {profile.lastQualification}</ListItem>
+            {profile.recentJobsApplied && (
+              <Fragment>
+                <ListItem>Recent Jobs Applied:</ListItem>
+                <ListItem>
+                  <List>
+                    {profile.recentJobsApplied.map((job, index) => {
+                      return (
+                        <Fragment key={index}>
+                          <ListItem>
+                            <Link
+                              style={{
+                                color: "inherit",
+                                textDecoration: "none",
+                              }}
+                              to={`/jobs/${job.jobId}`}
+                            >
+                              {job.title}
+                            </Link>
+                          </ListItem>
+                          <Divider />
+                        </Fragment>
+                      );
+                    })}
+                  </List>
+                </ListItem>
+              </Fragment>
+            )}
+          </Fragment>
+        ) : user === "employer" ? (
+          <Fragment>
+            <ListItem>Name: {profile.name}</ListItem>
+            <ListItem>Sector: {profile.sector}</ListItem>
+            <ListItem>Locations:</ListItem>
             <ListItem>
               <List>
-                {recentJobsApplied.map((job, index) => {
-                  return (
-                    <Fragment>
-                      <ListItem key={index}>
-                        <Link
-                          style={{ color: "inherit", textDecoration: "none" }}
-                          to={`/jobs/${job.jobId}`}
-                        >
-                          {job.title}
-                        </Link>
-                      </ListItem>
-                      <Divider />
-                    </Fragment>
-                  );
-                })}
+                {profile.locations.map((location, i) => (
+                  <Fragment key={i}>
+                    <ListItem>{location}</ListItem>
+                    <Divider />
+                  </Fragment>
+                ))}
+              </List>
+            </ListItem>
+
+            <ListItem>Departments:</ListItem>
+            <ListItem>
+              <List>
+                {profile.departments.map((department, i) => (
+                  <Fragment key={i}>
+                    <ListItem>{department}</ListItem>
+                    <Divider />
+                  </Fragment>
+                ))}
               </List>
             </ListItem>
           </Fragment>
+        ) : (
+          <div>Log in!</div>
         )}
       </List>
     </div>

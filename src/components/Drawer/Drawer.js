@@ -20,7 +20,7 @@ import Profile from "../../components/Profile/Profile";
 function ResponsiveDrawer(props) {
   const { window } = props;
   const loggedIn = props.loggedIn;
-  const { recentJobsApplied, ...userInfo } = props.profile;
+  // const { recentJobsApplied, ...userInfo } = props.profile;
   //   console.log({ profile });
   const drawerWidth = props.drawerWidth;
   const mobileOpen = props.mobileOpen;
@@ -30,13 +30,7 @@ function ResponsiveDrawer(props) {
     setMobileOpen((mobileOpen) => !mobileOpen);
   };
 
-  const drawer = (
-    <Profile
-      recentJobsApplied={recentJobsApplied}
-      userInfo={userInfo}
-      loggedIn={loggedIn}
-    />
-  );
+  const drawer = <Profile profile={props.profile} loggedIn={loggedIn} />;
 
   const container =
     window !== undefined ? () => window().document.body : undefined;

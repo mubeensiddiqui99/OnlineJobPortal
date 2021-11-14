@@ -1,6 +1,6 @@
 import AppBar from "./components/AppBar";
 import "./App.css";
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./components/Login";
 import { styled } from "@mui/material/styles";
@@ -16,7 +16,10 @@ import Paper from "@mui/material/Paper";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
 import SearchJobs from "./components/SearchJobs/SearchJobs";
-
+import EmployerSignup from "./components/EmployerSignup";
+import EmployerSettings from "./components/EmployerSettings/EmployerSettings";
+import ELogin from "./components/Elogin";
+const sample = [{ jobId: 0, title: "title", desc: "desc" }];
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -32,17 +35,18 @@ const theme = createTheme({
     },
   },
 });
-
-const sample = [{ jobId: 0, title: "title", desc: "desc" }];
 const drawerWidth = 240;
-function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState("");
-  const [jobs, setJobs] = useState(sample);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const [profile, setProfile] = useState({
-    //dummy state.It should be empty, requires database for login info to be  correct here
+export const UserContext = createContext("");
+export const ProfileContext = createContext("");
+export const LoggedInContext = createContext("");
+function App() {
+  const userState = useState("");
+  const [user, setUser] = userState;
+
+  const profileState = useState({
+    // //dummy state.It should be empty, requires database for login info to be  correct here
+
     email: "fgbf",
     password: "",
     name: "Adnan",
@@ -50,92 +54,103 @@ function App() {
     lastSchool: "dvdf",
     lastQualification: "fddfb",
     type: "employee",
+
     recentJobsApplied: sample,
   });
-  const { recentJobsApplied, ...userInfo } = profile;
+  const [profile, setProfile] = profileState;
+  // const p =
+  //   user === "employee"
+  //     ? [employeeProfile, setEmployeeProfile]
+  //     : [employerProfile, setEmployerProfile];
+  // const userInfo = p[0].userInfo;
+  const loggedInState = useState(false);
+  const [loggedIn, setLoggedIn] = loggedInState;
+
+  const [jobs, setJobs] = useState(sample);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // console.log({ userInfo });
   return (
     <div className="App">
       <Router>
         <ThemeProvider theme={theme}>
-          <AppBar
-            setMobileOpen={setMobileOpen}
-            loggedIn={loggedIn}
-            drawerWidth={drawerWidth}
-            mobileOpen={mobileOpen}
-            name={userInfo.name}
-          />
-          <Grid container spacing={2}>
-            {loggedIn && (
-              <Grid item xs="auto">
-                <Drawer
-                  profile={profile}
+          <UserContext.Provider value={userState}>
+            <ProfileContext.Provider value={profileState}>
+              <LoggedInContext.Provider value={loggedInState}>
+                <AppBar
+                  setMobileOpen={setMobileOpen}
+                  loggedIn={loggedIn}
                   drawerWidth={drawerWidth}
                   mobileOpen={mobileOpen}
-                  loggedIn={loggedIn}
-                  setMobileOpen={setMobileOpen}
                 />
-              </Grid>
-            )}
+                <Grid container spacing={2}>
+                  {loggedIn && (
+                    <Grid item xs="auto">
+                      <Drawer
+                        profile={profile}
+                        drawerWidth={drawerWidth}
+                        mobileOpen={mobileOpen}
+                        loggedIn={loggedIn}
+                        setMobileOpen={setMobileOpen}
+                      />
+                    </Grid>
+                  )}
 
-            <Grid item xs>
-              {/* <Item> */}
-              {/* A <Switch> looks through its children <Route>s and
+                  <Grid item xs>
+                    {/* <Item> */}
+                    {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-              <Switch>
-                <Route path="/login">
-                  <Login
-                    loggedIn={loggedIn}
-                    setLoggedIn={setLoggedIn}
-                    setUser={setUser}
-                    setProfile={setProfile}
-                  />
-                </Route>
-                <Route path="/signup">
-                  <Signup
-                    loggedIn={loggedIn}
-                    setLoggedIn={setLoggedIn}
-                    setUser={setUser}
-                    setProfile={setProfile}
-                  />
-                </Route>
-                <Route path="/profile">
-                  <Profile
-                    loggedIn={loggedIn}
-                    userInfo={userInfo}
-                    recentJobsApplied={recentJobsApplied}
-                  />
-                </Route>
-                <Route path="/jobs/:id">
-                  <Resume user={user} />
-                </Route>
-                <Route path="/jobs">
-                  <SearchJobs />
-                  <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
-                </Route>
-                <Route path="/settings">
-                  <Settings loggedIn={loggedIn} setProfile={setProfile} />
-                </Route>
-                <Route path="/portal">
-                  <Portal
-                    user={user}
-                    loggedIn={loggedIn}
-                    setJobs={setJobs}
-                    jobs={jobs}
-                  />
-                  {/*for employer only*/}
-                </Route>
-                <Route path="/">
-                  <SearchJobs />
-                  <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
-                </Route>
-              </Switch>
-              {/* </Item> */}
-            </Grid>
-          </Grid>
+                    <Switch>
+                      <Route path="/elogin">
+                        <ELogin />
+                      </Route>
+                      <Route path="/login">
+                        <Login />
+                      </Route>
+                      <Route path="/esignup">
+                        <EmployerSignup />
+                      </Route>
+                      <Route path="/signup">
+                        <Signup />
+                      </Route>
 
-          {/* <p>
+                      <Route path="/profile">
+                        <Profile />
+                      </Route>
+                      <Route path="/jobs/:id">
+                        <Resume user={user} />
+                      </Route>
+                      <Route path="/jobs">
+                        <SearchJobs />
+                        <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
+                      </Route>
+                      <Route path="/settings">
+                        {user === "employee" ? (
+                          <Settings />
+                        ) : (
+                          <EmployerSettings />
+                        )}
+                      </Route>
+
+                      <Route path="/portal">
+                        <Portal
+                          user={user}
+                          loggedIn={loggedIn}
+                          setJobs={setJobs}
+                          jobs={jobs}
+                        />
+                        {/*for employer only*/}
+                      </Route>
+                      <Route path="/">
+                        <SearchJobs />
+                        <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
+                      </Route>
+                    </Switch>
+                    {/* </Item> */}
+                  </Grid>
+                </Grid>
+
+                {/* <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
@@ -146,6 +161,9 @@ function App() {
         >
           Learn React
         </a> */}
+              </LoggedInContext.Provider>
+            </ProfileContext.Provider>
+          </UserContext.Provider>
         </ThemeProvider>
       </Router>
     </div>

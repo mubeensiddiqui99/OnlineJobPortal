@@ -3,13 +3,13 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import AccountMenu from "../components/AccountMenu/AccountMenu";
 const CustomToolBar = styled(Toolbar)(({ theme }) => ({
   // backgroundColor: theme.globalColor, //can also customize components using theme variables
 }));
@@ -66,7 +66,7 @@ export default function ButtonAppBar({
         <Button component={Link} to="/" color="inherit">
           Home
         </Button>
-        <Button
+        {/* <Button
           component={Link}
           to="/login"
           color="inherit"
@@ -76,12 +76,31 @@ export default function ButtonAppBar({
         </Button>
         <Button
           component={Link}
+          to="/elogin"
+          color="inherit"
+          sx={{ display: loggedIn ? "none" : "inline-flex" }}
+        >
+          ELogin
+        </Button> */}
+        <AccountMenu text="Login" />
+        {/* <Button
+          component={Link}
           to="/signup"
           color="inherit"
           sx={{ display: loggedIn ? "none" : "inline-flex" }}
         >
           Signup
         </Button>
+        <Button
+          component={Link}
+          to="/esignup"
+          color="inherit"
+          sx={{ display: loggedIn ? "none" : "inline-flex" }}
+        >
+          ESignup
+        </Button> */}
+        <AccountMenu text="Signup" />
+
         <Button component={Link} to="/jobs" color="inherit">
           Jobs
         </Button>

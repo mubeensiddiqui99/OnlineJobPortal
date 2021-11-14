@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -6,17 +6,7 @@ import { useHistory } from "react-router-dom";
 import { LoggedInContext, ProfileContext, UserContext } from "../App";
 // import Axios from "axios";
 
-const employee = {
-  email: "employee", //not email but here
-  password: "pass",
-};
-
-const employer = {
-  email: "employer",
-  password: "pass",
-};
-
-export default function Login() {
+export default function ELogin() {
   const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
   const [user, setUser] = useContext(UserContext);
   const [profile, setProfile] = useContext(ProfileContext);
@@ -67,11 +57,20 @@ export default function Login() {
     //     console.log("Wrong username /Password");
     //     setError("Incorrect email or password");
     //   });
-    if (inputs.email === "employee" && inputs.password === "pass") {
+    if (inputs.email === "employer" && inputs.password === "pass") {
       setLoggedIn(true);
+      setProfile({
+        //dummy
+        name: "name",
+        sector: "sector",
+        departments: ["department1", "department2"],
+        locations: ["location1"],
+        email: "email",
+        pass: "pass",
+      });
       setError("");
-      setUser("employee");
-      history.push("/jobs");
+      setUser("employer");
+      history.push("/portal");
     } else {
       setError("Incorrect email or password");
     }
