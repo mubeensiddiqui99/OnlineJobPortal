@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
+import Axios from "axios";
 
 const employee = {
   email: "employee", //not email but here
@@ -14,10 +15,21 @@ const employer = {
   password: "pass",
 };
 
-export default function Login({ setLoggedIn, loggedIn, setUser }) {
+export default function Login({ setLoggedIn, loggedIn, setUser, setProfile }) {
   const history = useHistory();
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
+  // const [profile, setProfile] = useState({
+  //   //dummy state.It should be empty, requires database for login info to be  correct here
+  //   email: "",
+  //   password: "",
+  //   name: "",
+  //   age: "",
+  //   lastSchool: "",
+  //   lastQualification: "",
+  //   type: "",
+  //   recentJobsApplied: "",
+  // });
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -27,20 +39,55 @@ export default function Login({ setLoggedIn, loggedIn, setUser }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (inputs.email === "employee" && inputs.password === "pass") {
-      setLoggedIn(true);
-      setError("");
-      setUser("employee");
-      history.push("/jobs");
-    } else if (inputs.email === "employer" && inputs.password === "pass") {
-      setLoggedIn(true);
-      setError("");
-      setUser("employer");
-      history.push("/portal");
-    } else {
-      setError("Incorrect email or password");
-    }
+    Axios.post("http://localhost:3001/login", inputs)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          const p = response.data[0];
+          const obj = {
+            name: p.Name,
+            age: p.Age,
+            email: p.Email,
+            lastQualification: p.Last_Qualification,
+            lastSchool: p.Last_School,
+          };
+          setProfile(obj);
+          setLoggedIn(true);
+          setError("");
+          setUser("employee");
+          history.push("/jobs");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Wrong username /Password");
+        setError("Incorrect email or password");
+      });
+    // if (inputs.email === "employee" && inputs.password === "pass") {
+    //   setLoggedIn(true);
+    //   setError("");
+    //   setUser("employee");
+    //   history.push("/jobs");
+    // } else if (inputs.email === "employer" && inputs.password === "pass") {
+    //   setLoggedIn(true);
+    //   setError("");
+    //   setUser("employer");
+    //   history.push("/portal");
+    // } else {
+    //   setError("Incorrect email or password");
+    // }
   };
+  // const Send_Login_Data = () => {
+  //   // console.log("inputs", inputs);
+  //   Axios.post("http://localhost:3001/login", inputs).then((response) => {
+  //     if (response) {
+  //       console.log(response);
+  //       // console.log(response.data[0].Email);
+  //       // console.log(response.data[0].Name);
+  //       // console.log(response.data[0].Age);
+  //     }
+  //   });
+  // };
 
   if (loggedIn) {
     return <div>Already logged in ..</div>;

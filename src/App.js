@@ -89,6 +89,7 @@ function App() {
                     loggedIn={loggedIn}
                     setLoggedIn={setLoggedIn}
                     setUser={setUser}
+                    setProfile={setProfile}
                   />
                 </Route>
                 <Route path="/signup">

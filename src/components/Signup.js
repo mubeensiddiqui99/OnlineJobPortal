@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -39,7 +40,14 @@ export default function Signup({ setLoggedIn, loggedIn, setUser, setProfile }) {
     setError("");
     setUser(inputs.type);
     // console.log(inputs.type);
+    addUser();
     history.push("/portal");
+  };
+  const addUser = () => {
+    console.log("inputs", inputs);
+    Axios.post("http://localhost:3001/register", inputs).then(() => {
+      console.log("success");
+    });
   };
 
   if (loggedIn) {
