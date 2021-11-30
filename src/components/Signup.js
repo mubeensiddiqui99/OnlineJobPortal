@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-// import Axios from "axios";
+import Axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -38,23 +38,26 @@ export default function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("inputs", inputs);
+    Axios.post("http://localhost:3001/register", inputs)
+      .then(() => {
+        console.log("success");
+        setLoggedIn(true);
+        setUser("employee");
+        setProfile(inputs);
+        history.push("/portal");
+      })
+      .catch((err) => {
+        setError(err.Error);
+        console.log("This is error", err);
+      });
     // console.log({ inputs });
 
-    setLoggedIn(true);
-    setUser("employee");
-    setProfile(inputs);
-
-    setError("");
+    // setError("");
     // console.log(inputs.type);
     // addUser();
-    history.push("/portal");
+    // history.push("/portal");
   };
-  // const addUser = () => {
-  //   console.log("inputs", inputs);
-  //   Axios.post("http://localhost:3001/register", inputs).then(() => {
-  //     console.log("success");
-  //   });
-  // };
 
   if (loggedIn) {
     return <div>Already logged in ..</div>;

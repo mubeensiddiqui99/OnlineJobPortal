@@ -53,7 +53,7 @@ export default function BasicMenu({ text, action }) {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={(e) => handleClose("/signup")}>Employer</MenuItem>
+          <MenuItem onClick={(e) => handleClose("/signup")}>Employee</MenuItem>
           <MenuItem onClick={(e) => handleClose("/esignup")}>Employer</MenuItem>
         </Menu>
       )}

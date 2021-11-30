@@ -67,31 +67,10 @@ export default function Profile() {
           </Fragment>
         ) : user === "employer" ? (
           <Fragment>
-            <ListItem>Name: {profile.name}</ListItem>
-            <ListItem>Sector: {profile.sector}</ListItem>
-            <ListItem>Locations:</ListItem>
-            <ListItem>
-              <List>
-                {profile.locations.map((location, i) => (
-                  <Fragment key={i}>
-                    <ListItem>{location}</ListItem>
-                    <Divider />
-                  </Fragment>
-                ))}
-              </List>
-            </ListItem>
-
-            <ListItem>Departments:</ListItem>
-            <ListItem>
-              <List>
-                {profile.departments.map((department, i) => (
-                  <Fragment key={i}>
-                    <ListItem>{department}</ListItem>
-                    <Divider />
-                  </Fragment>
-                ))}
-              </List>
-            </ListItem>
+            {console.log(profile?.comp_name)}
+            <ListItem>Name:{profile?.comp_name}</ListItem>
+            <ListItem>Sector: {profile?.comp_sector}</ListItem>
+            <ListItem>Locations:{profile?.comp_location}</ListItem>
           </Fragment>
         ) : (
           <div>Log in!</div>

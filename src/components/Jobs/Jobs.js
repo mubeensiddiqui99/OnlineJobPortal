@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import CardWrapper from "../Card/Card";
 import "./style.css";
 import { withRouter } from "react-router";
+import Axios from "axios";
 
 function Jobs({ loggedIn, jobs, user, location }) {
   // if (!loggedIn) {
@@ -13,6 +14,13 @@ function Jobs({ loggedIn, jobs, user, location }) {
   if (title === null) {
     title = "";
   }
+  useEffect(() => {
+    Axios.get("http://localhost:3001/jobs").then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    });
+  }, []);
   // console.log({ title });
   return (
     <div className="jobs-main">

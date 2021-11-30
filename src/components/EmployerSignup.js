@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-// import Axios from "axios";
+import Axios from "axios";
 import { ListItem } from "@mui/material";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
@@ -24,12 +24,12 @@ export default function Signup() {
 
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-    name: "",
-    sector: "",
-    departments: [],
-    locations: [],
+    comp_email: "",
+    comp_password: "",
+    comp_name: "",
+    comp_sector: "",
+    // departments: [],
+    comp_location: "",
   });
   const [department, setDepartment] = useState("");
   const [location, setLocation] = useState("");
@@ -62,20 +62,30 @@ export default function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log({ inputs });
-    setProfile(inputs);
-    setLoggedIn(true);
-    setError("");
-    setUser(inputs.type);
+    console.log({ inputs });
+
+    Axios.post("http://localhost:3001/company_registration", inputs).then(
+      () => {
+        console.log("success");
+        console.log({ inputs });
+        setProfile(inputs);
+        setLoggedIn(true);
+        setError("");
+        setUser("employer");
+        history.push("/portal");
+      }
+    );
+
     // console.log(inputs.type);
     // addUser();
-    history.push("/portal");
   };
   // const addUser = () => {
   //   console.log("inputs", inputs);
-  //   Axios.post("http://localhost:3001/register", inputs).then(() => {
-  //     console.log("success");
-  //   });
+  //   Axios.post("http://localhost:3001/company_registration", inputs).then(
+  //     () => {
+  //       console.log("success");
+  //     }
+  //   );
   // };
 
   if (loggedIn) {
@@ -108,9 +118,9 @@ export default function Signup() {
           required
           id="outlined-required"
           label="Email"
-          value={inputs.email || ""}
+          value={inputs.comp_email || ""}
           onChange={handleChange}
-          name="email"
+          name="comp_email"
         />
         <br />
 
@@ -120,27 +130,36 @@ export default function Signup() {
           label="Password"
           type="password"
           autoComplete="current-password"
-          value={inputs.password || ""}
+          value={inputs.comp_password || ""}
           onChange={handleChange}
-          name="password"
+          name="comp_password"
         />
         <br />
         <TextField
           required
           id="outlined-required"
           label="Name"
-          value={inputs.name || ""}
+          value={inputs.comp_name || ""}
           onChange={handleChange}
-          name="name"
+          name="comp_name"
         />
         <br />
         <TextField
           required
           id="outlined-required"
           label="Sector"
-          value={inputs.sector || ""}
+          value={inputs.comp_sector || ""}
           onChange={handleChange}
-          name="sector"
+          name="comp_sector"
+        />
+        <br />
+        <TextField
+          required
+          id="outlined-required"
+          label="Location"
+          value={inputs.comp_location || ""}
+          onChange={handleChange}
+          name="comp_location"
         />
       </div>
       {/* <FormControl fullWidth>
@@ -158,15 +177,15 @@ export default function Signup() {
         </Select>
       </FormControl> */}
       <br />
-      <TextField
+      {/* <TextField
         required
         id="outlined-required"
         label="Add Department"
         value={department || ""}
         onChange={handleDepartment}
         name="department"
-      />
-      <List>
+      /> */}
+      {/* <List>
         {inputs.departments &&
           inputs.departments.map((department, i) => {
             return <ListItem key={i}>{department}</ListItem>;
@@ -180,14 +199,14 @@ export default function Signup() {
         value={location || ""}
         onChange={handleLocation}
         name="location"
-      />
-      <List>
+      /> */}
+      {/* <List>
         {inputs.locations &&
           inputs.locations.map((location, i) => {
             return <ListItem key={i}>{location}</ListItem>;
           })}
       </List>
-      <Button onClick={addLocation}>Add</Button>
+      <Button onClick={addLocation}>Add</Button> */}
 
       <Button
         style={{ marginTop: "3rem" }}
