@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { LoggedInContext, ProfileContext } from "../../App";
 import { useHistory } from "react-router";
+import Axios from "axios";
 export default function Settings() {
   const [loggedIn] = useContext(LoggedInContext);
   const [profile, setProfile] = useContext(ProfileContext);
@@ -16,6 +17,7 @@ export default function Settings() {
     age: profile.age,
     lastSchool: profile.lastSchool,
     lastQualification: profile.lastQualification,
+    id: profile.id,
   });
 
   const handleChange = (event) => {
@@ -25,12 +27,17 @@ export default function Settings() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(inputs);
+    Axios.post("http://localhost:3001/updateEmployeeRecord", inputs).then(
+      () => {
+        setProfile((prev) => {
+          return { ...prev, ...inputs };
+        });
+        history.push("/");
+      }
+    );
     // console.log(inputs.age);
     // console.log({ inputs });
-    setProfile((prev) => {
-      return { ...prev, ...inputs };
-    });
-    history.push("/");
   };
 
   const content = loggedIn ? (

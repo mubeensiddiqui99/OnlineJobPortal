@@ -93,7 +93,7 @@ function App() {
 
   const [jobs, setJobs] = useState(sample_jobs);
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  console.log(profile);
   // console.log({ userInfo });
   return (
     <div className="App">
@@ -163,6 +163,7 @@ function App() {
                           loggedIn={loggedIn}
                           setJobs={setJobs}
                           jobs={jobs}
+                          profile={profile}
                         />
                         {/*for employer only*/}
                       </Route>

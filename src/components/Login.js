@@ -54,7 +54,9 @@ export default function Login() {
             email: p.Email,
             lastQualification: p.Last_Qualification,
             lastSchool: p.Last_School,
+            id: p.ID,
           };
+          console.log(p);
           setProfile(obj);
           setLoggedIn(true);
           setError("");

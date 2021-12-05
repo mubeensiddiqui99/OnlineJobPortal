@@ -7,17 +7,21 @@ import { ListItem } from "@mui/material";
 import List from "@mui/material/List";
 import { ProfileContext, LoggedInContext } from "../../App";
 import { useHistory } from "react-router";
+import Axios from "axios";
 export default function EmployerSettings() {
   const loggedIn = useContext(LoggedInContext);
   const [profile, setProfile] = useContext(ProfileContext);
   const history = useHistory();
   const [inputs, setInputs] = useState({
-    email: profile.email,
-    password: profile.password,
-    name: profile.name,
-    sector: profile.sector,
-    location: profile.location,
+    comp_email: profile.comp_email,
+    comp_password: profile.comp_password,
+    comp_name: profile.comp_name,
+    comp_sector: profile.comp_sector,
+    comp_location: profile.comp_location,
+    comp_id: profile.comp_id,
   });
+  // console.log(inputs);
+  // console.log(profile);
   const [location, setLocation] = useState("");
   const handleLocation = (e) => {
     setLocation(e.target.value);
@@ -30,12 +34,15 @@ export default function EmployerSettings() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(inputs);
+    Axios.post("http://localhost:3001/updateCompanyRecord", inputs).then(() => {
+      setProfile((prev) => {
+        return { ...prev, ...inputs };
+      });
+      history.push("/");
+    });
     // console.log(inputs.age);
     // console.log({ inputs });
-    setProfile((prev) => {
-      return { ...prev, ...inputs };
-    });
-    history.push("/");
   };
 
   const content = loggedIn ? (
@@ -67,9 +74,9 @@ export default function EmployerSettings() {
             required
             id="outlined-required"
             label="Email"
-            value={inputs.email || ""}
+            value={inputs.comp_email || ""}
             onChange={handleChange}
-            name="email"
+            name="comp_email"
           />
           <br />
 
@@ -79,36 +86,36 @@ export default function EmployerSettings() {
             label="Password"
             type="password"
             autoComplete="current-password"
-            value={inputs.password || ""}
+            value={inputs.comp_password || ""}
             onChange={handleChange}
-            name="password"
+            name="comp_password"
           />
           <br />
           <TextField
             required
             id="outlined-required"
             label="Name"
-            value={inputs.name || ""}
+            value={inputs.comp_name || ""}
             onChange={handleChange}
-            name="name"
+            name="comp_name"
           />
           <br />
           <TextField
             required
             id="outlined-required"
             label="Sector"
-            value={inputs.sector || ""}
+            value={inputs.comp_sector || ""}
             onChange={handleChange}
-            name="sector"
+            name="comp_sector"
           />
           <br />
           <TextField
             required
             id="outlined-required"
             label="Location"
-            value={inputs.location || ""}
+            value={inputs.comp_location || ""}
             onChange={handleChange}
-            name="location"
+            name="comp_location"
           />
         </div>
         {/* <FormControl fullWidth>

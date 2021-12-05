@@ -13,14 +13,14 @@ import { useTheme } from "@mui/material/styles";
 
 export default function CardWrapper({ job, user }) {
   const {
-    job_id,
+    job_comp_id,
     job_title,
     job_desc,
     job_skills,
     job_career_level,
     job_date,
     job_no_of_positions,
-    job_salary,
+    job_sal,
     job_years_of_experience,
     job_company,
   } = job;
@@ -64,16 +64,17 @@ export default function CardWrapper({ job, user }) {
           }}
         >
           <div>EXP: {job_years_of_experience} Years</div>
-          <div>{job_date.toDateString()}</div>
+          <div>Required Skills: {job_skills}</div>
+          {/* <div>{job_date.toDateString()}</div> */}
           <div>
             <Typography variant="body2" color="text.secondary">
-              ${job_salary}
+              ${job_sal}
             </Typography>
           </div>
         </div>
       </CardActions>
       <CardActions>
-        <Button size="small" component={Link} to={`/jobs/${job_id}`}>
+        <Button size="small" component={Link} to={`/jobs/${job_comp_id}`}>
           {prompt}
         </Button>
       </CardActions>

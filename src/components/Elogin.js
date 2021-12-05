@@ -43,6 +43,7 @@ export default function ELogin() {
             comp_email: p.comp_email,
             comp_sector: p.comp_sector,
             comp_location: p.comp_loc,
+            comp_id: p.comp_id,
           };
           console.log(obj.comp_name);
           console.log(obj.comp_sector);

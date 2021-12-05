@@ -16,7 +16,8 @@ export default function Profile() {
 
   // console.log({ profile });
 
-  // console.log({ profile });
+  console.log({ profile });
+
   return (
     <div style={{ textAlign: "center" }}>
       <Avatar />

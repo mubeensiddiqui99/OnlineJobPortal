@@ -1,5 +1,6 @@
 import { TextareaAutosize } from "@mui/material";
 import React from "react";
+import Axios from "axios";
 import Jobs from "./Jobs/Jobs";
 import { useState } from "react";
 import List from "@mui/material/List";
@@ -22,10 +23,11 @@ const names = [
   "salary",
   "career_level",
 ];
-export default function Portal({ user, loggedIn, setJobs, jobs }) {
+export default function Portal({ user, loggedIn, setJobs, jobs, profile }) {
   const history = useHistory();
   const [inputs, setinputs] = useState({});
   const [prompt, setPrompt] = useState("");
+  console.log(profile.comp_id);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -40,6 +42,7 @@ export default function Portal({ user, loggedIn, setJobs, jobs }) {
 
   const handleSubmit = (e) => {
     let ok = true;
+    let date = new Date();
     // console.log({ inputs });
     for (let i = 0; i < names.length; i++) {
       if (document.getElementsByName(names[i])[0].value === "") {
@@ -59,11 +62,26 @@ export default function Portal({ user, loggedIn, setJobs, jobs }) {
           job_no_of_positions: inputs.no_of_positions,
           job_salary: inputs.salary,
           job_career_level: inputs.career_level,
-          job_date: new Date(),
-          job_company: "employer",
+          job_date: date,
+          // job_company: "employer",
+          // job_comp_id: profile.comp_id,
         },
       ]);
-      history.push("/jobs");
+      console.log(inputs);
+      const data = {
+        ...inputs,
+        job_comp_id: profile.job_comp_id,
+        job_company: profile.job_company,
+      };
+      console.log(data);
+      Axios.post("http://localhost:3001/addJobs", data)
+        .then(() => {
+          console.log("success");
+          history.push("/jobs");
+        })
+        .catch((err) => {
+          console.log("This is error", err);
+        });
     }
   };
   //   console.log(loggedIn);
