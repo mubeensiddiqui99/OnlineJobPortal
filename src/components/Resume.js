@@ -1,4 +1,9 @@
 import React, { useState, useContext } from "react";
+
+import React, { useState, useEffect, useContext } from "react";
+import { ProfileContext } from "../App";
+import Axios from "axios";
+
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
@@ -11,25 +16,59 @@ const Input = styled("input")({
 
 export default function Resume({ jobs, user }) {
   const history = useHistory();
-  let { id } = useParams();
+
   const [applications, setApplications] = useContext(ApplicationsContext);
+
+  let id = useParams();
+
   // id = parseInt(id);
   const [submitted, setSubmitted] = useState(false);
-  // console.log(jobs[i]d? - 1]);
+  const [profile, setprofile] = useContext(ProfileContext);
+  console.log(profile);
+  // console.log(jobs[i]d? - 1);
   // console.log(id - 1);
   // if (!jobs) return null;
   // if (!id) return null;
-  const {
-    job_title,
-    job_desc,
-    job_company,
-    job_date,
-    job_salary,
-    job_skills,
-    job_no_of_positions,
-    job_career_level,
-  } = jobs[id - 1];
 
+  // const {
+  //   job_title,
+  //   job_desc,
+  //   job_company,
+  //   job_date,
+  //   job_salary,
+  //   job_skills,
+  //   job_no_of_positions,
+  //   job_career_level,
+  // } = jobs[0];
+  const [resume, setresume] = useState({});
+  const [inputs, setInputs] = useState({
+    Summary: "",
+    Job_ID: parseInt(id.id),
+    Emp_ID: profile.id,
+  });
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  console.log(resume);
+  useEffect(() => {
+    console.log(id);
+    Axios.post("http://localhost:3001/Resume", id)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setresume(response.data[0]);
+          //  setjobs(response.data);
+          console.log(resume);
+          console.log(jobs);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Wrong username /Password");
+      });
+  }, []);
   // console.log({ jobs });
 
   let content = "";
@@ -47,13 +86,30 @@ export default function Resume({ jobs, user }) {
       ];
     });
     setSubmitted(true);
+
+    Axios.post("http://localhost:3001/submitResume", inputs)
+      .then(() => {
+        console.log("success");
+
+        console.log(inputs);
+        setSubmitted(true);
+      })
+      .catch((err) => {
+        console.log("This is error", err);
+      });
   };
   if (user === "employee" && !submitted) {
     content = (
       <React.Fragment>
         <h2>Your Application:</h2>
         <div>
-          <TextField label="Summary" />
+          <TextField
+            required
+            label="Summary"
+            value={inputs.Summary || ""}
+            onChange={handleChange}
+            name="Summary"
+          />
         </div>
         <div>
           <label htmlFor="contained-button-file">
@@ -99,16 +155,16 @@ export default function Resume({ jobs, user }) {
         marginLeft: 40,
       }}
     >
-      <h1>{job_company}</h1>
-      <h2>{job_title}</h2>
-      <h3>{job_date.toDateString()}</h3>
+      {/* <h1>{job_company}</h1> */}
+      <h2>{resume?.job_title}</h2>
+      <h3>{resume?.job_date}</h3>
       <h3>Description:</h3>
-      <p>{job_desc}</p>
-      <h3>Salary: ${job_salary}</h3>
+      <p>{resume?.job_desc}</p>
+      <h3>Salary: ${resume?.job_sal}</h3>
       <h3>Skills: </h3>
-      <p>{job_skills}</p>
-      <h3>No of Positions: {job_no_of_positions}</h3>
-      <h3>Career Level: {job_career_level}</h3>
+      <p>{resume?.job_skills}</p>
+      <h3>No of Positions: {resume?.job_no_position}</h3>
+      <h3>Career Level: {resume?.job_career_level}</h3>
       {content}
     </div>
   );

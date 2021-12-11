@@ -13,8 +13,8 @@ import { useTheme } from "@mui/material/styles";
 
 export default function CardWrapper({ job, user }) {
   const {
-    // job_comp_id,
     job_id,
+    comp_id,
     job_title,
     job_desc,
     job_skills,
@@ -23,7 +23,7 @@ export default function CardWrapper({ job, user }) {
     job_no_of_positions,
     job_sal,
     job_years_of_experience,
-    job_company,
+    comp_name,
   } = job;
   // console.log({ job_id });
   const theme = useTheme();
@@ -48,7 +48,7 @@ export default function CardWrapper({ job, user }) {
         "& .MuiCardHeader-title": { fontWeight: 900 },
       }}
     >
-      <CardHeader title={job_title} subheader={`${job_company}`} />
+      <CardHeader title={job_title} subheader={`${comp_name}`} />
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -75,10 +75,7 @@ export default function CardWrapper({ job, user }) {
         </div>
       </CardActions>
       <CardActions>
-        {/* <Button size="small" component={Link} to={`/jobs/${job_comp_id}`}>
-          {prompt}
-        </Button> */}
-        <Button size="small" component={Link} to={`/jobs/${job_id}`}>
+        <Button size="small" component={Link} to={`/jobs/${job_comp_id}`}>
           {prompt}
         </Button>
       </CardActions>
