@@ -21,7 +21,7 @@ import EmployerSettings from "./components/EmployerSettings/EmployerSettings";
 import ELogin from "./components/Elogin";
 const sample_jobs = [
   {
-    job_id: 1,
+    job_id: 9,
     job_title: "senior software engineer",
     job_desc: "Want talented engineer",
     job_skills: "html,css",
@@ -33,7 +33,7 @@ const sample_jobs = [
     job_company: "AICompany",
   },
   {
-    job_id: 2,
+    job_id: 10,
     job_title: "junior software engineer",
     job_desc: "Want talented engineer",
     job_skills: "html,css",

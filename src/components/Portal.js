@@ -70,8 +70,8 @@ export default function Portal({ user, loggedIn, setJobs, jobs, profile }) {
       console.log(inputs);
       const data = {
         ...inputs,
-        job_comp_id: profile.job_comp_id,
-        job_company: profile.job_company,
+        job_comp_id: profile.comp_id,
+        // job_company: profile.jcompany,
       };
       console.log(data);
       Axios.post("http://localhost:3001/addJobs", data)
