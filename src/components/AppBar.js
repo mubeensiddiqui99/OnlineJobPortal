@@ -100,7 +100,11 @@ export default function ButtonAppBar({ drawerWidth, setMobileOpen, name }) {
           ESignup
         </Button> */}
         <AccountMenu text="Signup" />
-
+        {user === "employee" && (
+          <Button component={Link} to="/applications" color="inherit">
+            Applications
+          </Button>
+        )}
         <Button component={Link} to="/jobs" color="inherit">
           Jobs
         </Button>

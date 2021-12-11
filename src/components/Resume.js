@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { ApplicationsContext } from "../App";
 
 const Input = styled("input")({
   display: "none",
 });
 
 export default function Resume({ jobs, user }) {
+  const history = useHistory();
   let { id } = useParams();
+  const [applications, setApplications] = useContext(ApplicationsContext);
   // id = parseInt(id);
   const [submitted, setSubmitted] = useState(false);
   // console.log(jobs[i]d? - 1]);
@@ -30,8 +33,19 @@ export default function Resume({ jobs, user }) {
   // console.log({ jobs });
 
   let content = "";
-  const handleSubmit = (e) => {
+  const handleAppSubmit = (e) => {
     //process
+
+    setApplications((prev) => {
+      return [
+        ...prev,
+        {
+          EMP_ID: 3,
+          JOB_ID: parseInt(id),
+          status: "Pending",
+        },
+      ];
+    });
     setSubmitted(true);
   };
   if (user === "employee" && !submitted) {
@@ -49,7 +63,7 @@ export default function Resume({ jobs, user }) {
             </Button>
           </label>
           <br />
-          <Button variant="contained" onClick={handleSubmit}>
+          <Button variant="contained" onClick={handleAppSubmit}>
             Submit
           </Button>
         </div>
@@ -58,7 +72,18 @@ export default function Resume({ jobs, user }) {
   } else if (user === "employee") {
     content = <h2>Submitted..</h2>;
   } else if (user === "employer") {
-    content = <h2>Candidates</h2>;
+    content = (
+      <div>
+        <Button
+          variant="contained"
+          onClick={() => {
+            history.push(`/applications/${id}`);
+          }}
+        >
+          Applications
+        </Button>
+      </div>
+    );
   } else {
     content = <h2>Please log in..</h2>;
   }

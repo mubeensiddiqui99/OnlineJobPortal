@@ -19,6 +19,20 @@ import SearchJobs from "./components/SearchJobs/SearchJobs";
 import EmployerSignup from "./components/EmployerSignup";
 import EmployerSettings from "./components/EmployerSettings/EmployerSettings";
 import ELogin from "./components/Elogin";
+import Applications from "./components/Applications/Applications";
+import EmployeeApplications from "./components/EmployeeApplications/EmployeeApplications";
+const apps = [
+  {
+    JOB_ID: 1,
+    EMP_ID: 1,
+    status: "Pending",
+  },
+  {
+    JOB_ID: 2,
+    EMP_ID: 2,
+    status: "Pending",
+  },
+];
 const sample_jobs = [
   {
     job_id: 1,
@@ -65,8 +79,11 @@ const drawerWidth = 240;
 export const UserContext = createContext("");
 export const ProfileContext = createContext("");
 export const LoggedInContext = createContext("");
+export const ApplicationsContext = createContext("");
 function App() {
   const userState = useState("");
+  const ApplicationsState = useState(apps);
+  console.log(ApplicationsState[0]);
   const [user, setUser] = userState;
 
   const profileState = useState({
@@ -102,81 +119,88 @@ function App() {
           <UserContext.Provider value={userState}>
             <ProfileContext.Provider value={profileState}>
               <LoggedInContext.Provider value={loggedInState}>
-                <AppBar
-                  setMobileOpen={setMobileOpen}
-                  loggedIn={loggedIn}
-                  drawerWidth={drawerWidth}
-                  mobileOpen={mobileOpen}
-                />
-                <Grid container spacing={2}>
-                  {loggedIn && (
-                    <Grid item xs="auto">
-                      <Drawer
-                        profile={profile}
-                        drawerWidth={drawerWidth}
-                        mobileOpen={mobileOpen}
-                        loggedIn={loggedIn}
-                        setMobileOpen={setMobileOpen}
-                      />
-                    </Grid>
-                  )}
-
-                  <Grid item xs>
-                    {/* <Item> */}
-                    {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-                    <Switch>
-                      <Route path="/elogin">
-                        <ELogin />
-                      </Route>
-                      <Route path="/login">
-                        <Login />
-                      </Route>
-                      <Route path="/esignup">
-                        <EmployerSignup />
-                      </Route>
-                      <Route path="/signup">
-                        <Signup />
-                      </Route>
-
-                      <Route path="/profile">
-                        <Profile />
-                      </Route>
-                      <Route path="/jobs/:id">
-                        <Resume user={user} jobs={jobs} />
-                      </Route>
-                      <Route path="/jobs">
-                        <SearchJobs />
-                        <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
-                      </Route>
-                      <Route path="/settings">
-                        {user === "employee" ? (
-                          <Settings />
-                        ) : (
-                          <EmployerSettings />
-                        )}
-                      </Route>
-
-                      <Route path="/portal">
-                        <Portal
-                          user={user}
-                          loggedIn={loggedIn}
-                          setJobs={setJobs}
-                          jobs={jobs}
+                <ApplicationsContext.Provider value={ApplicationsState}>
+                  <AppBar
+                    setMobileOpen={setMobileOpen}
+                    loggedIn={loggedIn}
+                    drawerWidth={drawerWidth}
+                    mobileOpen={mobileOpen}
+                  />
+                  <Grid container spacing={2}>
+                    {loggedIn && (
+                      <Grid item xs="auto">
+                        <Drawer
                           profile={profile}
+                          drawerWidth={drawerWidth}
+                          mobileOpen={mobileOpen}
+                          loggedIn={loggedIn}
+                          setMobileOpen={setMobileOpen}
                         />
-                        {/*for employer only*/}
-                      </Route>
-                      <Route path="/">
-                        <SearchJobs />
-                        <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
-                      </Route>
-                    </Switch>
-                    {/* </Item> */}
-                  </Grid>
-                </Grid>
+                      </Grid>
+                    )}
 
-                {/* <p>
+                    <Grid item xs>
+                      {/* <Item> */}
+                      {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+                      <Switch>
+                        <Route path="/applications/:id">
+                          <Applications />
+                        </Route>
+                        <Route path="/applications/">
+                          <EmployeeApplications />
+                        </Route>
+                        <Route path="/elogin">
+                          <ELogin />
+                        </Route>
+                        <Route path="/login">
+                          <Login />
+                        </Route>
+                        <Route path="/esignup">
+                          <EmployerSignup />
+                        </Route>
+                        <Route path="/signup">
+                          <Signup />
+                        </Route>
+
+                        <Route path="/profile">
+                          <Profile />
+                        </Route>
+                        <Route path="/jobs/:id">
+                          <Resume user={user} jobs={jobs} />
+                        </Route>
+                        <Route path="/jobs">
+                          <SearchJobs />
+                          <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
+                        </Route>
+                        <Route path="/settings">
+                          {user === "employee" ? (
+                            <Settings />
+                          ) : (
+                            <EmployerSettings />
+                          )}
+                        </Route>
+
+                        <Route path="/portal">
+                          <Portal
+                            user={user}
+                            loggedIn={loggedIn}
+                            setJobs={setJobs}
+                            jobs={jobs}
+                            profile={profile}
+                          />
+                          {/*for employer only*/}
+                        </Route>
+                        <Route path="/">
+                          <SearchJobs />
+                          <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
+                        </Route>
+                      </Switch>
+                      {/* </Item> */}
+                    </Grid>
+                  </Grid>
+
+                  {/* <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
@@ -187,6 +211,7 @@ function App() {
         >
           Learn React
         </a> */}
+                </ApplicationsContext.Provider>
               </LoggedInContext.Provider>
             </ProfileContext.Provider>
           </UserContext.Provider>

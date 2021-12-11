@@ -13,7 +13,8 @@ import { useTheme } from "@mui/material/styles";
 
 export default function CardWrapper({ job, user }) {
   const {
-    job_comp_id,
+    // job_comp_id,
+    job_id,
     job_title,
     job_desc,
     job_skills,
@@ -74,7 +75,10 @@ export default function CardWrapper({ job, user }) {
         </div>
       </CardActions>
       <CardActions>
-        <Button size="small" component={Link} to={`/jobs/${job_comp_id}`}>
+        {/* <Button size="small" component={Link} to={`/jobs/${job_comp_id}`}>
+          {prompt}
+        </Button> */}
+        <Button size="small" component={Link} to={`/jobs/${job_id}`}>
           {prompt}
         </Button>
       </CardActions>
