@@ -1,22 +1,54 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Axios from "axios";
 import Paper from "@mui/material/Paper";
 import { useParams, useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { ApplicationsContext } from "../../App";
-
+import { ProfileContext } from "../../App";
 export default function Applications() {
   const { id } = useParams();
+  const [profile, setprofile] = useContext(ProfileContext);
+  console.log({ id });
+  console.log(profile);
+  const comp_id = profile.comp_id;
+  console.log(comp_id);
   const history = useHistory();
   const [applications, setApplications] = useContext(ApplicationsContext);
-  //   console.log({ applications });
-  const handleAccept = ({ JOB_ID, EMP_ID }) => {
-    const cloned = [...applications];
+  console.log({ applications });
+  let job_id = parseInt(id);
+  const [Application1, setApplication1] = useState([]);
+  useEffect(() => {
+    console.log(job_id);
+    Axios.post("http://localhost:3001/displayCompanyJobs", { job_id })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setApplication1(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  console.log(Application1);
+  const handleAccept = ({ JOB_ID, EMP_ID, ID }) => {
+    const cloned = [...Application1];
+    Axios.post("http://localhost:3001/Accept", { ID })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          // setApplication1(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     function findapp(app) {
       if (app.JOB_ID === JOB_ID && app.EMP_ID === EMP_ID) {
         return true;
@@ -24,12 +56,32 @@ export default function Applications() {
       return false;
     }
     const index = cloned.findIndex(findapp);
-    cloned[index].status = "Accepted";
+    cloned[index].STATUS = "Accepted";
     // console.log(cloned[index].status);
-    setApplications(cloned);
+    setApplication1(cloned);
+    Axios.post("http://localhost:3001/job_history", { EMP_ID, JOB_ID, comp_id })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          // setApplication1(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  const handleReject = ({ JOB_ID, EMP_ID }) => {
-    const cloned = [...applications];
+  const handleReject = ({ JOB_ID, EMP_ID, ID }) => {
+    const cloned = [...Application1];
+    Axios.post("http://localhost:3001/Reject", { ID })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          // setApplication1(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     function findapp(app) {
       if (app.JOB_ID === JOB_ID && app.EMP_ID === EMP_ID) {
         return true;
@@ -37,7 +89,7 @@ export default function Applications() {
       return false;
     }
     const index = cloned.findIndex(findapp);
-    cloned[index].status = "Rejected";
+    cloned[index].STATUS = "Rejected";
 
     setApplications(cloned);
   };
@@ -50,7 +102,8 @@ export default function Applications() {
           <TableHead>
             <TableRow>
               <TableCell>JOB_ID</TableCell>
-              <TableCell align="right">EMP_ID</TableCell>
+              <TableCell align="right">Applicant ID</TableCell>
+              <TableCell align="right">Applicant Name</TableCell>
               <TableCell align="right">Status</TableCell>
 
               <TableCell align="right">CV</TableCell>
@@ -58,7 +111,7 @@ export default function Applications() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {applications.map((app, i) => (
+            {Application1.map((app, i) => (
               <TableRow
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -67,7 +120,8 @@ export default function Applications() {
                   {app.JOB_ID}
                 </TableCell>
                 <TableCell align="right">{app.EMP_ID}</TableCell>
-                <TableCell align="right">{app.status}</TableCell>
+                <TableCell align="right">{app.Name}</TableCell>
+                <TableCell align="right">{app.STATUS}</TableCell>
                 <TableCell align="right">
                   <Button
                     sx={{ color: "black" }}
@@ -81,14 +135,22 @@ export default function Applications() {
                 <TableCell align="right">
                   <Button
                     onClick={() => {
-                      handleAccept({ JOB_ID: app.JOB_ID, EMP_ID: app.EMP_ID });
+                      handleAccept({
+                        JOB_ID: app.JOB_ID,
+                        EMP_ID: app.EMP_ID,
+                        ID: app.ID,
+                      });
                     }}
                   >
                     Accept
                   </Button>
                   <Button
                     onClick={() => {
-                      handleReject({ JOB_ID: app.JOB_ID, EMP_ID: app.EMP_ID });
+                      handleReject({
+                        JOB_ID: app.JOB_ID,
+                        EMP_ID: app.EMP_ID,
+                        ID: app.ID,
+                      });
                     }}
                   >
                     Reject

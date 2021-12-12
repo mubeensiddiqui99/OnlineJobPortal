@@ -1,18 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Axios from "axios";
 import Paper from "@mui/material/Paper";
 import { useParams, useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { ApplicationsContext } from "../../App";
-
+import { ProfileContext } from "../../App";
 export default function EmployeeApplications() {
+  const [profile, setprofile] = useContext(ProfileContext);
   const history = useHistory();
   const [applications, setApplications] = useContext(ApplicationsContext);
+  let id = profile.id;
+  const [Application1, setApplication1] = useState([]);
+  useEffect(() => {
+    console.log(id);
+    console.log("profileID:", profile.id);
+    Axios.post("http://localhost:3001/displayUserJobs", { id })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setApplication1(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  console.log({ Application1 });
   return (
     <div>
       <h1>Applications</h1>
@@ -21,6 +40,7 @@ export default function EmployeeApplications() {
           <TableHead>
             <TableRow>
               <TableCell>JOB_ID</TableCell>
+              <TableCell align="right">JOB TITLE</TableCell>
               <TableCell align="right">EMP_ID</TableCell>
               <TableCell align="right">Status</TableCell>
 
@@ -28,7 +48,7 @@ export default function EmployeeApplications() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {applications.map((app, i) => (
+            {Application1.map((app, i) => (
               <TableRow
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -36,8 +56,10 @@ export default function EmployeeApplications() {
                 <TableCell component="th" scope="row">
                   {app.JOB_ID}
                 </TableCell>
-                <TableCell align="right">3</TableCell>
-                <TableCell align="right">{app.status}</TableCell>
+                <TableCell align="right">{app.job_title}</TableCell>
+                <TableCell align="right">{app.EMP_ID}</TableCell>
+
+                <TableCell align="right">{app.STATUS}</TableCell>
                 <TableCell align="right">
                   <Button
                     sx={{ color: "black" }}

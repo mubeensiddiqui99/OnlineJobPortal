@@ -9,6 +9,7 @@ export default function Profile() {
   const [profile] = useContext(ProfileContext);
   const [loggedIn] = useContext(LoggedInContext);
   const [user] = useContext(UserContext);
+  const Image = profile.Image;
   // console.log({ profile, ProfileContext });
   if (!loggedIn) {
     return null;
@@ -20,7 +21,7 @@ export default function Profile() {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <Avatar />
+      <Avatar Image={Image} />
       <List>
         {/* {Object.keys(userInfo).map((key, index) => {
           //requires formatting keys in title case

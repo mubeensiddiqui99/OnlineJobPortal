@@ -3,32 +3,32 @@ import CardWrapper from "../Card/Card";
 import "./style.css";
 import { withRouter } from "react-router";
 import Axios from "axios";
-const sample_jobs = [
-  {
-    job_id: 1,
-    job_title: "senior software engineer",
-    job_desc: "Want talented engineer",
-    job_skills: "html,css",
-    job_no_of_positions: 2,
-    job_date: new Date(), //post date,
-    job_salary: 1000,
-    job_years_of_experience: 2,
-    job_career_level: "Experienced Professional",
-    job_company: "AICompany",
-  },
-  {
-    job_id: 2,
-    job_title: "junior software engineer",
-    job_desc: "Want talented engineer",
-    job_skills: "html,css",
-    job_no_of_positions: 2,
-    job_date: new Date(), //post date,
-    job_salary: 1000,
-    job_years_of_experience: 2,
-    job_career_level: "Entry Level",
-    job_company: "AICompany",
-  },
-];
+// const sample_jobs = [
+//   {
+//     job_id: 1,
+//     job_title: "senior software engineer",
+//     job_desc: "Want talented engineer",
+//     job_skills: "html,css",
+//     job_no_of_positions: 2,
+//     job_date: new Date(), //post date,
+//     job_salary: 1000,
+//     job_years_of_experience: 2,
+//     job_career_level: "Experienced Professional",
+//     job_company: "AICompany",
+//   },
+//   {
+//     job_id: 2,
+//     job_title: "junior software engineer",
+//     job_desc: "Want talented engineer",
+//     job_skills: "html,css",
+//     job_no_of_positions: 2,
+//     job_date: new Date(), //post date,
+//     job_salary: 1000,
+//     job_years_of_experience: 2,
+//     job_career_level: "Entry Level",
+//     job_company: "AICompany",
+//   },
+// ];
 function Jobs({ loggedIn, user, location }) {
   // console.log(jobs);
   // if (!loggedIn) {

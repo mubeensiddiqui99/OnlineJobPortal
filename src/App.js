@@ -144,12 +144,6 @@ function App() {
                       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
                       <Switch>
-                        <Route path="/applications/:id">
-                          <Applications />
-                        </Route>
-                        <Route path="/applications/">
-                          <EmployeeApplications />
-                        </Route>
                         <Route path="/elogin">
                           <ELogin />
                         </Route>
@@ -172,6 +166,12 @@ function App() {
                         <Route path="/jobs">
                           <SearchJobs />
                           <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
+                        </Route>
+                        <Route path="/applications/:id">
+                          <Applications />
+                        </Route>
+                        <Route path="/applications/">
+                          <EmployeeApplications />
                         </Route>
                         <Route path="/settings">
                           {user === "employee" ? (

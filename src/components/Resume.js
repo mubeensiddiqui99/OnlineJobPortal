@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+// import React, { useState, useContext } from "react";
 
 import React, { useState, useEffect, useContext } from "react";
 import { ProfileContext } from "../App";
@@ -85,7 +85,7 @@ export default function Resume({ jobs, user }) {
         },
       ];
     });
-    setSubmitted(true);
+    // setSubmitted(true);
 
     Axios.post("http://localhost:3001/submitResume", inputs)
       .then(() => {
@@ -128,12 +128,14 @@ export default function Resume({ jobs, user }) {
   } else if (user === "employee") {
     content = <h2>Submitted..</h2>;
   } else if (user === "employer") {
+    console.log(id);
     content = (
       <div>
         <Button
           variant="contained"
           onClick={() => {
-            history.push(`/applications/${id}`);
+            console.log(id);
+            history.push(`/applications/${id.id}`);
           }}
         >
           Applications
