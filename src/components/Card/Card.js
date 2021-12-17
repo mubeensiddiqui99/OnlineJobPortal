@@ -75,7 +75,7 @@ export default function CardWrapper({ job, user }) {
         </div>
       </CardActions>
       <CardActions>
-        <Button size="small" component={Link} to={`/jobs/${job_comp_id}`}>
+        <Button size="small" component={Link} to={`/jobs/${job_id}`}>
           {prompt}
         </Button>
       </CardActions>

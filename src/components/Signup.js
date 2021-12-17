@@ -30,6 +30,8 @@ export default function Signup() {
     lastQualification: "",
     type: "",
   });
+  console.log({ inputs });
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -51,12 +53,31 @@ export default function Signup() {
         setError(err.Error);
         console.log("This is error", err);
       });
+    // setInputs({});
     // console.log({ inputs });
 
     // setError("");
     // console.log(inputs.type);
     // addUser();
     // history.push("/portal");
+    var formData = new FormData();
+    var imagefile = document.querySelector("#file1");
+    // formData.append("image", imagefile.files[0]);
+    // formData.append("image", imagefile.files[0]);
+    formData.append("input", JSON.stringifyinputs);
+
+    Axios.post("http://localhost:3000/profile-upload-single", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
   };
 
   if (loggedIn) {
@@ -64,7 +85,7 @@ export default function Signup() {
   }
   return (
     <Box
-      component="form"
+      // component="form"
       sx={{
         "& .MuiTextField-root": { width: "100%", paddingBottom: "1rem" },
         m: "auto",
@@ -156,6 +177,37 @@ export default function Signup() {
         onChange={handleChange}
         name="lastQualification"
       />
+      <form
+        method="POST"
+        action="#"
+        onSubmit={() => {
+          var formData = new FormData();
+          var imagefile = document.querySelector("#file1");
+          formData.append("image", imagefile.files[0]);
+          Axios.post("http://localhost:3000/profile-upload-single", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+            .then((res) => {
+              const data = res.data;
+              console.log(data.url);
+            })
+            .catch((err) => {
+              console.log({ err });
+            });
+        }}
+        // encType="multipart/form-data"
+      >
+        <div>
+          <label>Upload profile picture</label>
+          <input id="file1" type="file" name="image" required />
+        </div>
+        <div>
+          <input type="submit" value="Upload" />
+        </div>
+      </form>
+
       <Button
         style={{ marginTop: "3rem" }}
         variant="contained"

@@ -41,21 +41,21 @@ function Jobs({ loggedIn, user, location }) {
   if (title === null) {
     title = "";
   }
-  const [jobs, setjobs] = useState([]);
-  useEffect(() => {
-    Axios.get("http://localhost:3001/viewJobs")
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response);
-          setjobs(response.data);
-          console.log(jobs);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Wrong username /Password");
-      });
-  }, []);
+  const [jobs, setjobs] = useState(sample_jobs);
+  // useEffect(() => {
+  //   Axios.get("http://localhost:3001/viewJobs")
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         console.log(response);
+  //         setjobs(response.data);
+  //         console.log(jobs);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       console.log("Wrong username /Password");
+  //     });
+  // }, []);
   // console.log({ title });
   return (
     <div className="jobs-main">

@@ -33,52 +33,52 @@ export default function ELogin() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post("http://localhost:3001/company_login", inputs)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response);
-          const p = response.data[0];
-          const obj = {
-            comp_name: p.comp_name,
-            comp_email: p.comp_email,
-            comp_sector: p.comp_sector,
-            comp_location: p.comp_loc,
-            comp_id: p.comp_id,
-          };
-          console.log(obj.comp_name);
-          console.log(obj.comp_sector);
+    // Axios.post("http://localhost:3001/company_login", inputs)
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       console.log(response);
+    //       const p = response.data[0];
+    //       const obj = {
+    //         comp_name: p.comp_name,
+    //         comp_email: p.comp_email,
+    //         comp_sector: p.comp_sector,
+    //         comp_location: p.comp_loc,
+    //         comp_id: p.comp_id,
+    //       };
+    //       console.log(obj.comp_name);
+    //       console.log(obj.comp_sector);
 
-          setProfile(obj);
-          setUser("employer");
-          console.log(p);
-          setLoggedIn(true);
-          setError("");
+    //       setProfile(obj);
+    //       setUser("employer");
+    //       console.log(p);
+    //       setLoggedIn(true);
+    //       setError("");
 
-          history.push("/portal");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Wrong username /Password");
-        setError("Incorrect email or password");
-      });
-    // if (inputs.email === "employer" && inputs.password === "pass") {
-    //   setLoggedIn(true);
-    //   setProfile({
-    //     //dummy
-    //     name: "name",
-    //     sector: "sector",
-    //     departments: ["department1", "department2"],
-    //     locations: ["location1"],
-    //     email: "email",
-    //     pass: "pass",
+    //       history.push("/portal");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     console.log("Wrong username /Password");
+    //     setError("Incorrect email or password");
     //   });
-    //   setError("");
-    //   setUser("employer");
-    //   history.push("/portal");
-    // } else {
-    //   setError("Incorrect email or password");
-    // }
+    if (inputs.email === "employer" && inputs.password === "pass") {
+      setLoggedIn(true);
+      setProfile({
+        //dummy
+        name: "name",
+        sector: "sector",
+        departments: ["department1", "department2"],
+        locations: ["location1"],
+        email: "email",
+        pass: "pass",
+      });
+      setError("");
+      setUser("employer");
+      history.push("/portal");
+    } else {
+      setError("Incorrect email or password");
+    }
   };
   // const Send_Login_Data = () => {
   //   // console.log("inputs", inputs);
