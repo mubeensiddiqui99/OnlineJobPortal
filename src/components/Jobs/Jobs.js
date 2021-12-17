@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useContext } from "react";
 import CardWrapper from "../Card/Card";
 import "./style.css";
 import { withRouter } from "react-router";
 import Axios from "axios";
+import { ProfileContext } from "../../App";
 // const sample_jobs = [
 //   {
 //     job_id: 1,
@@ -35,6 +36,7 @@ function Jobs({ loggedIn, user, location }) {
   //   return <div>Please log in..</div>;
   // }
   const search = location.search; // could be '?foo=bar'
+  const [profile, setprofile] = useContext(ProfileContext);
   const params = new URLSearchParams(search);
 
   let title = params.get("title"); // bar
@@ -56,6 +58,7 @@ function Jobs({ loggedIn, user, location }) {
         console.log("Wrong username /Password");
       });
   }, []);
+  console.log(profile);
   // console.log({ title });
   return (
     <div className="jobs-main">

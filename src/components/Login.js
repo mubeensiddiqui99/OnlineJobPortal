@@ -54,7 +54,7 @@ export default function Login() {
             email: p.Email,
             lastQualification: p.Last_Qualification,
             lastSchool: p.Last_School,
-            id: p.ID,
+            emp_id: p.ID,
             Image: p.Image,
           };
           console.log(p);

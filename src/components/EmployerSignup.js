@@ -24,7 +24,7 @@ export default function Signup() {
   // if (inputs === undefined) {
   //   inputs = {};
   // }
-
+  const [comp_id1, setcomp_id1] = useState("");
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     comp_email: "",
@@ -67,27 +67,50 @@ export default function Signup() {
   useEffect(() => {
     if (inputs.Url.length !== 0) {
       Axios.post("http://localhost:3001/company_registration", inputs).then(
-        () => {
+        (res) => {
           console.log("success");
           console.log({ inputs });
-          setProfile(inputs);
-          setLoggedIn(true);
-          setError("");
-          setUser("employer");
-          history.push("/portal");
-          setInputs({
-            comp_email: "",
-            comp_password: "",
-            comp_name: "",
-            comp_sector: "",
-            // departments: [],
-            comp_location: "",
-            Url: "",
-          });
+          setcomp_id1(res.data.insertId);
+          console.log(profile);
+          console.log(res);
+          // setLoggedIn(true);
+          // setError("");
+          // setUser("employer");
+          // history.push("/portal");
+          // setInputs({
+          //   comp_email: "",
+          //   comp_password: "",
+          //   comp_name: "",
+          //   comp_sector: "",
+          //   // departments: [],
+          //   comp_location: "",
+          //   Url: "",
+          // });
         }
       );
     }
   }, [inputs]);
+  useEffect(() => {
+    if (comp_id1) {
+      const Image = inputs.Url;
+      const { Url, ...newvar } = inputs;
+      setProfile({ ...newvar, comp_id: comp_id1, Image: Url });
+      setLoggedIn(true);
+      setError("");
+      setUser("employer");
+      history.push("/portal");
+      setInputs({
+        comp_email: "",
+        comp_password: "",
+        comp_name: "",
+        comp_sector: "",
+        // departments: [],
+        comp_location: "",
+        Url: "",
+      });
+      setcomp_id1("");
+    }
+  }, [comp_id1]);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({ inputs });

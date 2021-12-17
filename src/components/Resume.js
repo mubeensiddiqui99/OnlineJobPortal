@@ -44,11 +44,21 @@ export default function Resume({ jobs, user }) {
   const [inputs, setInputs] = useState({
     Summary: "",
     Job_ID: parseInt(id.id),
-    Emp_ID: profile.id,
+    Emp_ID: profile.emp_id,
   });
+  console.log(inputs);
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleChangeResume = (event) => {
+    const name = event.target.name;
+    // let value = event.target.value;
+    const value = event.target.files;
+    console.log(value[0]);
+    // value = value.split("fakepath\\");
+    // value = value[0] + value[1];
     setInputs((values) => ({ ...values, [name]: value }));
   };
   console.log(resume);
@@ -75,18 +85,18 @@ export default function Resume({ jobs, user }) {
   const handleAppSubmit = (e) => {
     //process
 
-    setApplications((prev) => {
-      return [
-        ...prev,
-        {
-          EMP_ID: 3,
-          JOB_ID: parseInt(id),
-          status: "Pending",
-        },
-      ];
-    });
+    // setApplications((prev) => {
+    //   return [
+    //     ...prev,
+    //     {
+    //       EMP_ID: 3,
+    //       JOB_ID: parseInt(id),
+    //       status: "Pending",
+    //     },
+    //   ];
+    // });
     // setSubmitted(true);
-
+    console.log(inputs);
     Axios.post("http://localhost:3001/submitResume", inputs)
       .then(() => {
         console.log("success");
@@ -113,10 +123,23 @@ export default function Resume({ jobs, user }) {
         </div>
         <div>
           <label htmlFor="contained-button-file">
-            <Input id="contained-button-file" multiple type="file" />
+            <Input
+              id="contained-button-file"
+              multiple
+              type="file"
+              value={inputs.cv || ""}
+              onChange={handleChangeResume}
+              name="CV"
+            />
             <Button variant="outlined" component="span">
               Upload Resume/CV
             </Button>
+            <a
+              href="C:\Users\HP\Desktop\pic1.jpg"
+              download="proposed_file_name"
+            >
+              Download
+            </a>
           </label>
           <br />
           <Button variant="contained" onClick={handleAppSubmit}>

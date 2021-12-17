@@ -18,6 +18,7 @@ export default function Signup() {
   const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
   const [user, setUser] = useContext(UserContext);
   const [profile, setProfile] = useContext(ProfileContext);
+  const [emp_id1, setemp_id1] = useState("");
   const history = useHistory();
   // console.log({ inputs });
   // if (inputs === undefined) {
@@ -45,22 +46,25 @@ export default function Signup() {
     if (inputs.Url.length !== 0) {
       console.log(inputs);
       Axios.post("http://localhost:3001/register", inputs)
-        .then(() => {
+        .then((res) => {
           console.log("success");
-          setLoggedIn(true);
-          setUser("employee");
-          setProfile(inputs);
-          history.push("/portal");
-          setInputs({
-            email: "",
-            password: "",
-            name: "",
-            age: "",
-            lastSchool: "",
-            lastQualification: "",
-            type: "",
-            Url: "",
-          });
+          setemp_id1(res.data.insertId);
+          // setLoggedIn(true);
+          // setUser("employee");
+
+          // setProfile(inputs);
+          // console.log(profile);
+          // history.push("/portal");
+          // setInputs({
+          //   email: "",
+          //   password: "",
+          //   name: "",
+          //   age: "",
+          //   lastSchool: "",
+          //   lastQualification: "",
+          //   type: "",
+          //   Url: "",
+          // });
         })
         .catch((err) => {
           setError(err.Error);
@@ -68,6 +72,30 @@ export default function Signup() {
         });
     }
   }, [inputs]);
+  useEffect(() => {
+    if (emp_id1) {
+      setLoggedIn(true);
+
+      setUser("employee");
+      const Image = inputs.Url;
+      const { Url, ...newvar } = inputs;
+      setProfile({ ...newvar, emp_id: emp_id1, Image: Url });
+      // setProfile(inputs);
+      console.log(profile);
+      history.push("/portal");
+      setInputs({
+        email: "",
+        password: "",
+        name: "",
+        age: "",
+        lastSchool: "",
+        lastQualification: "",
+        type: "",
+        Url: "",
+      });
+      setemp_id1("");
+    }
+  }, [emp_id1]);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("inputs", inputs);

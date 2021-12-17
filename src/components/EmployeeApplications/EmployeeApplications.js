@@ -15,7 +15,8 @@ export default function EmployeeApplications() {
   const [profile, setprofile] = useContext(ProfileContext);
   const history = useHistory();
   const [applications, setApplications] = useContext(ApplicationsContext);
-  let id = profile.id;
+  console.log(profile);
+  let id = profile.emp_id;
   const [Application1, setApplication1] = useState([]);
   useEffect(() => {
     console.log(id);
@@ -32,6 +33,7 @@ export default function EmployeeApplications() {
       });
   }, []);
   console.log({ Application1 });
+  console.log(Application1);
   return (
     <div>
       <h1>Applications</h1>
@@ -41,7 +43,9 @@ export default function EmployeeApplications() {
             <TableRow>
               <TableCell>JOB_ID</TableCell>
               <TableCell align="right">JOB TITLE</TableCell>
+
               <TableCell align="right">EMP_ID</TableCell>
+              <TableCell align="right">SUMMARY</TableCell>
               <TableCell align="right">Status</TableCell>
 
               <TableCell align="right">CV</TableCell>
@@ -58,7 +62,7 @@ export default function EmployeeApplications() {
                 </TableCell>
                 <TableCell align="right">{app.job_title}</TableCell>
                 <TableCell align="right">{app.EMP_ID}</TableCell>
-
+                <TableCell align="right">{app.SUMMARY}</TableCell>
                 <TableCell align="right">{app.STATUS}</TableCell>
                 <TableCell align="right">
                   <Button

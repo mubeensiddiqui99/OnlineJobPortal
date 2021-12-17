@@ -104,6 +104,7 @@ export default function Applications() {
               <TableCell>JOB_ID</TableCell>
               <TableCell align="right">Applicant ID</TableCell>
               <TableCell align="right">Applicant Name</TableCell>
+              <TableCell align="right">Summary</TableCell>
               <TableCell align="right">Status</TableCell>
 
               <TableCell align="right">CV</TableCell>
@@ -121,6 +122,7 @@ export default function Applications() {
                 </TableCell>
                 <TableCell align="right">{app.EMP_ID}</TableCell>
                 <TableCell align="right">{app.Name}</TableCell>
+                <TableCell align="right">{app.SUMMARY}</TableCell>
                 <TableCell align="right">{app.STATUS}</TableCell>
                 <TableCell align="right">
                   <Button
