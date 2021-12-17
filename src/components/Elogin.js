@@ -33,6 +33,7 @@ export default function ELogin() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+// <<<<<<< HEAD
     // Axios.post("http://localhost:3001/company_login", inputs)
     //   .then((response) => {
     //     if (response.status === 200) {
@@ -47,6 +48,23 @@ export default function ELogin() {
     //       };
     //       console.log(obj.comp_name);
     //       console.log(obj.comp_sector);
+// =======
+    Axios.post("http://localhost:3001/company_login", inputs)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          const p = response.data[0];
+          const obj = {
+            comp_name: p.comp_name,
+            comp_email: p.comp_email,
+            comp_sector: p.comp_sector,
+            comp_location: p.comp_loc,
+            comp_id: p.comp_id,
+            Image: p.Image,
+          };
+          console.log(obj.comp_name);
+          console.log(obj.comp_sector);
+// >>>>>>> 6b405961559f32f413eaca362ec50bd3be401b5e
 
     //       setProfile(obj);
     //       setUser("employer");

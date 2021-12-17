@@ -43,40 +43,41 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Axios.post("http://localhost:3001/login", inputs)
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       console.log(response);
-    //       const p = response.data[0];
-    //       const obj = {
-    //         name: p.Name,
-    //         age: p.Age,
-    //         email: p.Email,
-    //         lastQualification: p.Last_Qualification,
-    //         lastSchool: p.Last_School,
-    //         id: p.ID,
-    //       };
-    //       console.log(p);
-    //       setProfile(obj);
-    //       setLoggedIn(true);
-    //       setError("");
-    //       setUser("employee");
-    //       history.push("/jobs");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     console.log("Wrong username /Password");
+    Axios.post("http://localhost:3001/login", inputs)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          const p = response.data[0];
+          const obj = {
+            name: p.Name,
+            age: p.Age,
+            email: p.Email,
+            lastQualification: p.Last_Qualification,
+            lastSchool: p.Last_School,
+            emp_id: p.ID,
+            Image: p.Image,
+          };
+          console.log(p);
+          setProfile(obj);
+          setLoggedIn(true);
+          setError("");
+          setUser("employee");
+          history.push("/jobs");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Wrong username /Password");
+        setError("Incorrect email or password");
+      });
+    //   if (inputs.email === "employee" && inputs.password === "pass") {
+    //     setLoggedIn(true);
+    //     setError("");
+    //     setUser("employee");
+    //     history.push("/jobs");
+    //   } else {
     //     setError("Incorrect email or password");
-    //   });
-    if (inputs.email === "employee" && inputs.password === "pass") {
-      setLoggedIn(true);
-      setError("");
-      setUser("employee");
-      history.push("/jobs");
-    } else {
-      setError("Incorrect email or password");
-    }
+    //   }
   };
 
   if (loggedIn) {
