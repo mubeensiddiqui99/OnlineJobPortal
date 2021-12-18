@@ -113,7 +113,7 @@ function App() {
   console.log(profile);
   // console.log({ userInfo });
   return (
-    <div className="App">
+    <div className="App" style={{ paddingBottom: "5%" }}>
       <Router>
         <ThemeProvider theme={theme}>
           <UserContext.Provider value={userState}>
@@ -164,7 +164,6 @@ function App() {
                           <Resume user={user} jobs={jobs} />
                         </Route>
                         <Route path="/jobs">
-                          <SearchJobs />
                           <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
                         </Route>
                         <Route path="/applications/:id">
@@ -192,7 +191,6 @@ function App() {
                           {/*for employer only*/}
                         </Route>
                         <Route path="/">
-                          <SearchJobs />
                           <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
                         </Route>
                       </Switch>

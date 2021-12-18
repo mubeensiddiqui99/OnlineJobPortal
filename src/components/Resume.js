@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import { ProfileContext } from "../App";
 import Axios from "axios";
@@ -156,10 +155,6 @@ export default function Resume({ jobs, user }) {
         <Button
           variant="contained"
           onClick={() => {
-<<<<<<< HEAD
-=======
-            console.log(id);
->>>>>>> 6b405961559f32f413eaca362ec50bd3be401b5e
             history.push(`/applications/${id.id}`);
           }}
         >

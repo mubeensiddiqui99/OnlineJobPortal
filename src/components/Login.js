@@ -70,14 +70,14 @@ export default function Login() {
         console.log("Wrong username /Password");
         setError("Incorrect email or password");
       });
-    //   if (inputs.email === "employee" && inputs.password === "pass") {
-    //     setLoggedIn(true);
-    //     setError("");
-    //     setUser("employee");
-    //     history.push("/jobs");
-    //   } else {
-    //     setError("Incorrect email or password");
-    //   }
+    // if (inputs.email === "employee" && inputs.password === "pass") {
+    //   setLoggedIn(true);
+    //   setError("");
+    //   setUser("employee");
+    //   history.push("/jobs");
+    // } else {
+    //   setError("Incorrect email or password");
+    // }
   };
 
   if (loggedIn) {
