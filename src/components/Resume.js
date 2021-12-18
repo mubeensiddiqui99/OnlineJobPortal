@@ -55,8 +55,8 @@ export default function Resume({ jobs, user }) {
   const handleChangeResume = (event) => {
     const name = event.target.name;
     // let value = event.target.value;
-    const value = event.target.files;
-    console.log(value[0]);
+    const value = event.target.files[0].name;
+    // console.log(value[0]);
     // value = value.split("fakepath\\");
     // value = value[0] + value[1];
     setInputs((values) => ({ ...values, [name]: value }));
@@ -82,6 +82,26 @@ export default function Resume({ jobs, user }) {
   // console.log({ jobs });
 
   let content = "";
+  useEffect(() => {
+    if (inputs.CV && submitted) {
+      console.log("This is FInal Inputs", inputs);
+      Axios.post("http://localhost:3001/submitResume", inputs)
+        .then(() => {
+          console.log("success");
+
+          console.log(inputs);
+          setSubmitted(false);
+          setInputs({
+            Summary: "",
+            Job_ID: parseInt(id.id),
+            Emp_ID: profile.emp_id,
+          });
+        })
+        .catch((err) => {
+          console.log("This is error", err);
+        });
+    }
+  }, [inputs]);
   const handleAppSubmit = (e) => {
     //process
 
@@ -96,16 +116,27 @@ export default function Resume({ jobs, user }) {
     //   ];
     // });
     // setSubmitted(true);
-    console.log(inputs);
-    Axios.post("http://localhost:3001/submitResume", inputs)
-      .then(() => {
-        console.log("success");
 
-        console.log(inputs);
-        setSubmitted(true);
+    setSubmitted(true);
+  };
+  const handleAppResumeSubmit = () => {
+    var formData = new FormData();
+    var CV = document.querySelector("#file1");
+    console.log("Hello", CV.files[0]);
+    formData.append("CV", CV.files[0]);
+    console.log("formdata", formData);
+    Axios.post("http://localhost:3001/profile-upload-single1", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        console.log(res.data.url);
+        // var CV = document.querySelector("#file1");
+        setInputs({ ...inputs, CV: CV.files[0].name });
       })
       .catch((err) => {
-        console.log("This is error", err);
+        console.log({ err });
       });
   };
   if (user === "employee" && !submitted) {
@@ -122,7 +153,7 @@ export default function Resume({ jobs, user }) {
           />
         </div>
         <div>
-          <label htmlFor="contained-button-file">
+          {/* <label htmlFor="contained-button-file">
             <Input
               id="contained-button-file"
               multiple
@@ -140,7 +171,20 @@ export default function Resume({ jobs, user }) {
             >
               Download
             </a>
-          </label>
+          </label> */}
+          <div>
+            <label>Upload CV</label>
+            <input
+              id="file1"
+              type="file"
+              name="CV"
+              required
+              onChange={handleAppResumeSubmit}
+            />
+            {/* <Button variant="contained" onClick={handleAppResumeSubmit}>
+              SubmitCV
+            </Button> */}
+          </div>
           <br />
           <Button variant="contained" onClick={handleAppSubmit}>
             Submit

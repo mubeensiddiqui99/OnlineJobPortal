@@ -11,6 +11,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { ApplicationsContext } from "../../App";
 import { ProfileContext } from "../../App";
+import fileDownload from "js-file-download";
 export default function Applications() {
   const { id } = useParams();
   const [profile, setprofile] = useContext(ProfileContext);
@@ -128,11 +129,35 @@ export default function Applications() {
                   <Button
                     sx={{ color: "black" }}
                     onClick={() => {
-                      history.push(`/cv`);
+                      Axios.post("http://localhost:3001/DownloadResume", {
+                        CV: app.CV,
+                      })
+                        .then((response) => {
+                          if (response.status === 200) {
+                            console.log(response);
+                            // setApplication1(response.data);
+                            const type = response.headers["content-type"];
+                            const blob = new Blob([response.data], {
+                              type: type,
+                              encoding: "UTF-8",
+                            });
+                            const link = document.createElement("a");
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = "file.pdf";
+                            link.click();
+                            // fileDownload(response.data, "file.pdf");
+                          }
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
                     }}
                   >
                     CVname
                   </Button>
+                  {/* <a href={`http://localhost:3001/DownloadResume/${app.CV}`}>
+                    CV DOWNLOAD
+                  </a> */}
                 </TableCell>
                 <TableCell align="right">
                   <Button

@@ -103,6 +103,7 @@ export default function Signup() {
     var formData = new FormData();
     var imagefile = document.querySelector("#file1");
     formData.append("image", imagefile.files[0]);
+
     Axios.post("http://localhost:3001/profile-upload-single", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
