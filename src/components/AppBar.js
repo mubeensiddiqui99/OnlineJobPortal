@@ -32,7 +32,7 @@ export default function ButtonAppBar({ drawerWidth, setMobileOpen, name }) {
       sx={{
         width: { sm: loggedIn ? `calc(100% - ${drawerWidth}px)` : "100%" },
         ml: { sm: `${drawerMargin}px` },
-        mb: 2,
+        mb: 6,
       }}
     >
       <CustomToolBar

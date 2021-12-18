@@ -1,5 +1,3 @@
-// import React, { useState, useContext } from "react";
-
 import React, { useState, useEffect, useContext } from "react";
 import { ProfileContext } from "../App";
 import Axios from "axios";
@@ -201,7 +199,6 @@ export default function Resume({ jobs, user }) {
         <Button
           variant="contained"
           onClick={() => {
-            console.log(id);
             history.push(`/applications/${id.id}`);
           }}
         >
