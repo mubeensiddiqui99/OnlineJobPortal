@@ -58,7 +58,7 @@ export default function Applications() {
     }
     const index = cloned.findIndex(findapp);
     cloned[index].STATUS = "Accepted";
-    // console.log(cloned[index].status);
+    console.log(cloned[index].STATUS);
     setApplication1(cloned);
     Axios.post("http://localhost:3001/job_history", { EMP_ID, JOB_ID, comp_id })
       .then((response) => {

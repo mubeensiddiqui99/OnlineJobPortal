@@ -10,8 +10,9 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-
-export default function CardWrapper({ job, user }) {
+import Axios from "axios";
+import { useHistory } from "react-router-dom";
+export default function CardWrapper({ job, user, showStats, setjobs, jobs }) {
   const {
     job_id,
     comp_id,
@@ -24,20 +25,56 @@ export default function CardWrapper({ job, user }) {
     job_sal,
     job_years_of_experience,
     comp_name,
+    comp_loc,
   } = job;
+  const history = useHistory();
   // console.log({ job_id });
+  console.log(job);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const [prompt, setprompt] = useState("");
+  const [deletePromt, setDeletePromt] = useState("");
+  const [updatePrompt, setupdatePrompt] = useState("");
+  const [content, setcontent] = useState({});
   useEffect(() => {
     if (user === "employee") {
       setprompt("Apply");
-    } else if (user === "employer") {
+    } else if (user === "employer" && showStats === true) {
       setprompt("Stats");
+      setDeletePromt("Delete Job");
+      setupdatePrompt("Update Job");
     } else {
       setprompt("");
     }
   }, [user]);
+  const deleteJobs = () => {
+    Axios.post("http://localhost:3001/deletejob", {
+      job_id: job_id,
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setjobs(
+            jobs.filter((job) => {
+              console.log({ job });
+              if (job.job_id !== job_id) {
+                return true;
+              }
+
+              return false;
+            })
+          );
+          //  console.log(jobs);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Wrong username /Password");
+      });
+  };
+  const updateJobs = () => {
+    history.push(`/update/${job_id}`);
+  };
   return (
     <Card
       sx={{
@@ -61,23 +98,39 @@ export default function CardWrapper({ job, user }) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            width: "50%",
+            width: "80%",
           }}
         >
           <div>EXP: {job_years_of_experience} Years</div>
           <div>Required Skills: {job_skills}</div>
+          <div>Location: {comp_loc}</div>
+
           {/* <div>{job_date.toDateString()}</div> */}
           <div>
             <Typography variant="body2" color="text.secondary">
-              ${job_sal}
+              Salary: ${job_sal}
             </Typography>
           </div>
+          <div>Date: {job_date}</div>
+          <div>Career Level: {job_career_level}</div>
         </div>
       </CardActions>
       <CardActions>
-        <Button size="small" component={Link} to={`/jobs/${job_id}`}>
-          {prompt}
-        </Button>
+        {prompt && (
+          <Button size="small" component={Link} to={`/jobs/${job_id}`}>
+            {prompt}
+          </Button>
+        )}
+        {deletePromt && (
+          <Button size="small" onClick={deleteJobs}>
+            {deletePromt}
+          </Button>
+        )}
+        {updatePrompt && (
+          <Button size="small" onClick={updateJobs}>
+            {updatePrompt}
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

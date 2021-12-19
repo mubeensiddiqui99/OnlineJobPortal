@@ -99,7 +99,7 @@ export default function Resume({ jobs, user }) {
           console.log("This is error", err);
         });
     }
-  }, [inputs]);
+  }, [inputs, submitted]);
   const handleAppSubmit = (e) => {
     //process
 

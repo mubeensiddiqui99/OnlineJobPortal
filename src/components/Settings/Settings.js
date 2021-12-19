@@ -17,7 +17,7 @@ export default function Settings() {
     age: profile.age,
     lastSchool: profile.lastSchool,
     lastQualification: profile.lastQualification,
-    id: profile.id,
+    id: profile.emp_id,
   });
 
   const handleChange = (event) => {

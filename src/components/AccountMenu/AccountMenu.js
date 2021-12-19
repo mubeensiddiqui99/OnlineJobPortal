@@ -46,6 +46,7 @@ export default function BasicMenu({ text, action }) {
         >
           <MenuItem onClick={(e) => handleClose("/login")}>Employee</MenuItem>
           <MenuItem onClick={(e) => handleClose("/elogin")}>Employer</MenuItem>
+          <MenuItem onClick={(e) => handleClose("/adminlogin")}>Admin</MenuItem>
         </Menu>
       ) : (
         <Menu

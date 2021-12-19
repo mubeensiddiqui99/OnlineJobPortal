@@ -108,6 +108,7 @@ export default function ButtonAppBar({ drawerWidth, setMobileOpen, name }) {
         <Button component={Link} to="/jobs" color="inherit">
           Jobs
         </Button>
+
         <Button
           component={Link}
           to="/profile"
@@ -143,6 +144,11 @@ export default function ButtonAppBar({ drawerWidth, setMobileOpen, name }) {
             sx={{ display: !loggedIn ? "none" : "inline-flex" }}
           >
             Add Job
+          </Button>
+        )}
+        {user === "employer" && (
+          <Button component={Link} to="/myjobs" color="inherit">
+            MyJobs
           </Button>
         )}
         {loggedIn && (

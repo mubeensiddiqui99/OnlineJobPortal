@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import InputSlider from "../InputSlider/InputSlider";
-
+import Axios from "axios";
 export default function SearchJobs({ sample_jobs, setjobs }) {
   const [search, setSearch] = useState({
     city: "",
@@ -13,21 +13,19 @@ export default function SearchJobs({ sample_jobs, setjobs }) {
   const [minSal, setMinSal] = useState(0);
   const handleSearch = (e) => {
     e.preventDefault();
-
-    setjobs(
-      sample_jobs.filter((job) => {
-        console.log({ job });
-        if (
-          job.job_title.toLowerCase().includes(search.title.toLowerCase()) &&
-          job.job_location.toLowerCase().includes(search.city.toLowerCase()) &&
-          job.job_salary >= 1000 * minSal
-        ) {
-          return true;
+    console.log("Clicked", { search, minSal });
+    Axios.post("http://localhost:3001/applyfilter", { search, minSal })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setjobs(response.data);
+          //  console.log(jobs);
         }
-
-        return false;
       })
-    );
+      .catch((err) => {
+        console.log(err);
+        console.log("Wrong username /Password");
+      });
   };
   const handleChange = (e) => {
     const name = e.target.name;

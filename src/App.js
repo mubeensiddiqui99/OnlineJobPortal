@@ -21,6 +21,11 @@ import EmployerSettings from "./components/EmployerSettings/EmployerSettings";
 import ELogin from "./components/Elogin";
 import Applications from "./components/Applications/Applications";
 import EmployeeApplications from "./components/EmployeeApplications/EmployeeApplications";
+import MyJobs from "./components/MyJobs/MyJobs";
+import UpdateJob from "./components/UpdateJob/UpdateJob";
+
+import AdminLogin from "./components/Admin/AdminLogin";
+import AdminView from "./components/Admin/AdminView";
 const apps = [
   {
     JOB_ID: 1,
@@ -147,6 +152,12 @@ function App() {
                         <Route path="/elogin">
                           <ELogin />
                         </Route>
+                        <Route path="/adminlogin">
+                          <AdminLogin />
+                        </Route>
+                        <Route path="/AdminView">
+                          <AdminView />
+                        </Route>
                         <Route path="/login">
                           <Login />
                         </Route>
@@ -166,8 +177,20 @@ function App() {
                         <Route path="/jobs">
                           <Jobs loggedIn={loggedIn} jobs={jobs} user={user} />
                         </Route>
+                        <Route path="/myjobs">
+                          <MyJobs loggedIn={loggedIn} jobs={jobs} user={user} />
+                        </Route>
                         <Route path="/applications/:id">
                           <Applications />
+                        </Route>
+                        <Route path="/update/:id">
+                          <UpdateJob
+                            user={user}
+                            loggedIn={loggedIn}
+                            setJobs={setJobs}
+                            jobs={jobs}
+                            profile={profile}
+                          />
                         </Route>
                         <Route path="/applications/">
                           <EmployeeApplications />

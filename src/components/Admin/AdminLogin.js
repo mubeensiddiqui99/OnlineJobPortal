@@ -1,28 +1,20 @@
-import { useContext, useState } from "react";
+import React from "react";
+import { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
-import { LoggedInContext, ProfileContext, UserContext } from "../App";
+import { LoggedInContext, ProfileContext, UserContext } from "../../App";
 import Axios from "axios";
 
-const employee = {
-  email: "employee", //not email but here
-  password: "pass",
-};
-
-const employer = {
-  email: "employer",
-  password: "pass",
-};
-
-export default function Login() {
+const AdminLogin = () => {
   const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
   const [user, setUser] = useContext(UserContext);
   const [profile, setProfile] = useContext(ProfileContext);
   const history = useHistory();
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
+
   // const [profile, setProfile] = useState({
   //   //dummy state.It should be empty, requires database for login info to be  correct here
   //   email: "",
@@ -43,49 +35,21 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post("http://localhost:3001/login", inputs)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response);
-          const p = response.data[0];
-          const obj = {
-            name: p.Name,
-            age: p.Age,
-            email: p.Email,
-            lastQualification: p.Last_Qualification,
-            lastSchool: p.Last_School,
-            emp_id: p.ID,
-            Image: p.Image,
-          };
-          console.log(p);
-          setProfile(obj);
-          setLoggedIn(true);
-          setError("");
-          setUser("employee");
-          history.push("/jobs");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Wrong username /Password");
-        setError("Incorrect email or password");
-      });
-    // if (inputs.email === "employee" && inputs.password === "pass") {
-    //   setLoggedIn(true);
-    //   setError("");
-    //   setUser("employee");
-    //   history.push("/jobs");
-    // } else {
-    //   setError("Incorrect email or password");
-    // }
-  };
 
+    if (inputs.email === "admin" && inputs.password === "admin") {
+      setUser("admin");
+      setLoggedIn(true);
+      history.push("/AdminView");
+    } else {
+      setError("Wrong email/Password");
+    }
+  };
   if (loggedIn) {
     return <div>Already logged in ..</div>;
   }
   return (
     <>
-      <h2>Employee Login</h2>
+      <h2>Admin Login</h2>
       <Box
         component="form"
         sx={{
@@ -123,4 +87,6 @@ export default function Login() {
       </Box>
     </>
   );
-}
+};
+
+export default AdminLogin;

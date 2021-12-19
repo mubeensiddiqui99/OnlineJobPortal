@@ -22,6 +22,8 @@ const names = [
   "no_of_positions",
   "salary",
   "career_level",
+  "job_type",
+  "job_category",
 ];
 export default function Portal({ user, loggedIn, setJobs, jobs, profile }) {
   const history = useHistory();
@@ -63,6 +65,8 @@ export default function Portal({ user, loggedIn, setJobs, jobs, profile }) {
           job_salary: inputs.salary,
           job_career_level: inputs.career_level,
           job_date: date,
+          job_type: inputs.jobtype,
+          job_category: inputs.job_category,
           // job_company: "employer",
           // job_comp_id: profile.comp_id,
         },
@@ -96,6 +100,7 @@ export default function Portal({ user, loggedIn, setJobs, jobs, profile }) {
             "& .MuiTextField-root": { width: "100%", m: 4 },
             "& textarea": { width: "100%", m: 4, minHeight: "10%" },
             width: "50%",
+            margin: "auto",
           }}
           noValidate
           autoComplete="off"
@@ -191,14 +196,46 @@ export default function Portal({ user, loggedIn, setJobs, jobs, profile }) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"Intern"}>Intern/Student</MenuItem>
-              <MenuItem value={"Junior"}>Entry Level</MenuItem>
-              <MenuItem value={"Senior"}>Experienced Professional</MenuItem>
+              <MenuItem value={"Intern/Student"}>Intern/Student</MenuItem>
+              <MenuItem value={"Entry Level"}>Entry Level</MenuItem>
+              <MenuItem value={"Experienced Professional"}>
+                Experienced Professional
+              </MenuItem>
               <MenuItem value={"GM/CEO/Country Head/President"}>
                 GM/CEO/Country Head/President
               </MenuItem>
             </Select>
           </FormControl>
+          <br />
+          <FormControl sx={{ m: 4, minWidth: "100%" }}>
+            <InputLabel id="demo-simple-select-helper-label">
+              Job Type
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={inputs.job_type}
+              label="Job Type"
+              name="job_type"
+              onChange={handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Part Time"}>Part Time</MenuItem>
+              <MenuItem value={"Full Time"}>Full Time</MenuItem>
+              <MenuItem value={"Contract"}>Contract</MenuItem>
+            </Select>
+          </FormControl>
+          <br />
+          <TextField
+            required
+            id="outlined-required"
+            label="job_category"
+            value={inputs.job_category || ""}
+            onChange={handleChange}
+            name="job_category"
+          />
           <br />
           {/* </div> */}
           <Button variant="contained" onClick={handleSubmit}>

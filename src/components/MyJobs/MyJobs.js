@@ -7,35 +7,8 @@ import { ProfileContext } from "../../App";
 import InputSlider from "../InputSlider/InputSlider";
 import { Button } from "@mui/material";
 import SearchJobs from "../SearchJobs/SearchJobs";
-// const sample_jobs = [
-//   {
-//     job_id: 1,
-//     job_title: "senior software engineer",
-//     job_desc: "Want talented engineer",
-//     job_skills: "html,css",
-//     job_no_of_positions: 2,
-//     job_date: new Date(), //post date,
-//     job_salary: 1000,
-//     job_years_of_experience: 2,
-//     job_career_level: "Experienced Professional",
-//     job_company: "AICompany",
-//     job_location: "lahore",
-//   },
-//   {
-//     job_id: 2,
-//     job_title: "junior software engineer",
-//     job_desc: "Want talented engineer",
-//     job_skills: "html,css",
-//     job_no_of_positions: 2,
-//     job_date: new Date(), //post date,
-//     job_salary: 1000,
-//     job_years_of_experience: 2,
-//     job_career_level: "Entry Level",
-//     job_company: "AICompany",
-//     job_location: "karachi",
-//   },
-// ];
-function Jobs({ loggedIn, user, location }) {
+
+function MyJobs({ loggedIn, user, location }) {
   // if (!loggedIn) {
   //   return <div>Please log in..</div>;
   // }
@@ -44,9 +17,9 @@ function Jobs({ loggedIn, user, location }) {
   // const [jobs, setjobs] = useState(sample_jobs);
   const [jobs, setjobs] = useState([]);
   console.log({ jobs });
-
+  console.log(profile);
   useEffect(() => {
-    Axios.get("http://localhost:3001/viewJobs")
+    Axios.post("http://localhost:3001/viewMyJobs", { comp_id: profile.comp_id })
       .then((response) => {
         if (response.status === 200) {
           console.log(response);
@@ -106,7 +79,13 @@ function Jobs({ loggedIn, user, location }) {
           // console.log(job.jobId);
           return (
             <Fragment key={i}>
-              <CardWrapper job={job} user={user} />
+              <CardWrapper
+                job={job}
+                user={user}
+                showStats={true}
+                setjobs={setjobs}
+                jobs={jobs}
+              />
             </Fragment>
           );
         })}
@@ -114,4 +93,4 @@ function Jobs({ loggedIn, user, location }) {
     </div>
   );
 }
-export default withRouter(Jobs);
+export default withRouter(MyJobs);
