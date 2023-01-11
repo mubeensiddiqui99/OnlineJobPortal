@@ -97,7 +97,7 @@ export default function UpdateJob({ loggedIn, setJobs, jobs, profile }) {
   return (
     <div>
       <h2>Portal</h2>
-      <h3>Add Job</h3>
+      <h3>Update Job</h3>
       <Box
         component="form"
         sx={{

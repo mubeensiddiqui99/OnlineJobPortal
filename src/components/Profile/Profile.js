@@ -72,7 +72,7 @@ export default function Profile() {
             {console.log(profile?.comp_name)}
             <ListItem>Name:{profile?.comp_name}</ListItem>
             <ListItem>Sector: {profile?.comp_sector}</ListItem>
-            <ListItem>Locations:{profile?.comp_location}</ListItem>
+            <ListItem>Location:{profile?.comp_location}</ListItem>
           </Fragment>
         ) : (
           <div>Log in!</div>

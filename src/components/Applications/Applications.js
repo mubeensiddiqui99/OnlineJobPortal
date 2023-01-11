@@ -114,76 +114,82 @@ export default function Applications() {
           </TableHead>
           <TableBody>
             {Application1.map((app, i) => (
-              <TableRow
-                key={i}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {app.JOB_ID}
-                </TableCell>
-                <TableCell align="right">{app.EMP_ID}</TableCell>
-                <TableCell align="right">{app.Name}</TableCell>
-                <TableCell align="right">{app.SUMMARY}</TableCell>
-                <TableCell align="right">{app.STATUS}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    sx={{ color: "black" }}
-                    onClick={() => {
-                      Axios.post("http://localhost:3001/DownloadResume", {
-                        CV: app.CV,
-                      })
-                        .then((response) => {
-                          if (response.status === 200) {
-                            console.log(response);
-                            // setApplication1(response.data);
-                            const type = response.headers["content-type"];
-                            const blob = new Blob([response.data], {
-                              type: type,
-                              encoding: "UTF-8",
-                            });
-                            const link = document.createElement("a");
-                            link.href = window.URL.createObjectURL(blob);
-                            link.download = "file.pdf";
-                            link.click();
-                            // fileDownload(response.data, "file.pdf");
-                          }
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                        });
-                    }}
+              <>
+                {app.STATUS === "Pending" ? (
+                  <TableRow
+                    key={i}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    CVname
-                  </Button>
-                  {/* <a href={`http://localhost:3001/DownloadResume/${app.CV}`}>
+                    <TableCell component="th" scope="row">
+                      {app.JOB_ID}
+                    </TableCell>
+                    <TableCell align="right">{app.EMP_ID}</TableCell>
+                    <TableCell align="right">{app.Name}</TableCell>
+                    <TableCell align="right">{app.SUMMARY}</TableCell>
+                    <TableCell align="right">{app.STATUS}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        sx={{ color: "black" }}
+                        onClick={() => {
+                          Axios.post("http://localhost:3001/DownloadResume", {
+                            CV: app.CV,
+                          })
+                            .then((response) => {
+                              if (response.status === 200) {
+                                console.log(response);
+                                // setApplication1(response.data);
+                                const type = response.headers["content-type"];
+                                const blob = new Blob([response.data], {
+                                  type: type,
+                                  encoding: "UTF-8",
+                                });
+                                const link = document.createElement("a");
+                                link.href = window.URL.createObjectURL(blob);
+                                link.download = "file.pdf";
+                                link.click();
+                                // fileDownload(response.data, "file.pdf");
+                              }
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        }}
+                      >
+                        CVname
+                      </Button>
+                      {/* <a href={`http://localhost:3001/DownloadResume/${app.CV}`}>
                     CV DOWNLOAD
                   </a> */}
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    onClick={() => {
-                      handleAccept({
-                        JOB_ID: app.JOB_ID,
-                        EMP_ID: app.EMP_ID,
-                        ID: app.ID,
-                      });
-                    }}
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      handleReject({
-                        JOB_ID: app.JOB_ID,
-                        EMP_ID: app.EMP_ID,
-                        ID: app.ID,
-                      });
-                    }}
-                  >
-                    Reject
-                  </Button>
-                </TableCell>
-              </TableRow>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        onClick={() => {
+                          handleAccept({
+                            JOB_ID: app.JOB_ID,
+                            EMP_ID: app.EMP_ID,
+                            ID: app.ID,
+                          });
+                        }}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          handleReject({
+                            JOB_ID: app.JOB_ID,
+                            EMP_ID: app.EMP_ID,
+                            ID: app.ID,
+                          });
+                        }}
+                      >
+                        Reject
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  " "
+                )}
+              </>
             ))}
           </TableBody>
         </Table>

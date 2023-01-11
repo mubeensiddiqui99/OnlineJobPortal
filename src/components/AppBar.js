@@ -63,9 +63,13 @@ export default function ButtonAppBar({ drawerWidth, setMobileOpen, name }) {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Job Portal
         </Typography>
-        <Button component={Link} to="/" color="inherit">
-          Home
-        </Button>
+        {user !== "admin" ? (
+          <Button component={Link} to="/" color="inherit">
+            Home
+          </Button>
+        ) : (
+          ""
+        )}
         {/* <Button
           component={Link}
           to="/login"
@@ -105,36 +109,43 @@ export default function ButtonAppBar({ drawerWidth, setMobileOpen, name }) {
             Applications
           </Button>
         )}
-        <Button component={Link} to="/jobs" color="inherit">
-          Jobs
-        </Button>
+        {user !== "admin" ? (
+          <>
+            <Button component={Link} to="/jobs" color="inherit">
+              Jobs
+            </Button>
 
-        <Button
-          component={Link}
-          to="/profile"
-          color="inherit"
-          sx={{ display: !loggedIn ? "none" : "inline-flex" }}
-        >
-          Profile
-        </Button>
-        <Button
-          component={Link}
-          to="/settings"
-          color="inherit"
-          sx={{ display: !loggedIn ? "none" : "inline-flex" }}
-        >
-          Settings
-        </Button>
-        {loggedIn && (
-          <Link
-            to="/settings"
-            style={{ color: "inherit", textDecoration: "none" }}
-          >
-            <IconButton>
-              <AccountCircleRoundedIcon />
-            </IconButton>
-            {name}
-          </Link>
+            <Button
+              component={Link}
+              to="/profile"
+              color="inherit"
+              sx={{ display: !loggedIn ? "none" : "inline-flex" }}
+            >
+              Profile
+            </Button>
+            <Button
+              component={Link}
+              to="/settings"
+              color="inherit"
+              sx={{ display: !loggedIn ? "none" : "inline-flex" }}
+            >
+              Settings
+            </Button>
+
+            {loggedIn && (
+              <Link
+                to="/settings"
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                <IconButton>
+                  <AccountCircleRoundedIcon />
+                </IconButton>
+                {name}
+              </Link>
+            )}
+          </>
+        ) : (
+          ""
         )}
         {user === "employer" && (
           <Button

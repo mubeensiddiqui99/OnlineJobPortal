@@ -128,11 +128,11 @@ function App() {
                   <AppBar
                     setMobileOpen={setMobileOpen}
                     loggedIn={loggedIn}
-                    drawerWidth={drawerWidth}
+                    drawerWidth={user === "admin" ? 0 : drawerWidth}
                     mobileOpen={mobileOpen}
                   />
                   <Grid container spacing={2}>
-                    {loggedIn && (
+                    {loggedIn && user !== "admin" && (
                       <Grid item xs="auto">
                         <Drawer
                           profile={profile}

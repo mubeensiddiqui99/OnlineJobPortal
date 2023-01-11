@@ -59,6 +59,23 @@ export default function Resume({ jobs, user }) {
     // value = value[0] + value[1];
     setInputs((values) => ({ ...values, [name]: value }));
   };
+  const handleAppSubmit = (e) => {
+    //process
+
+    // setApplications((prev) => {
+    //   return [
+    //     ...prev,
+    //     {
+    //       EMP_ID: 3,
+    //       JOB_ID: parseInt(id),
+    //       status: "Pending",
+    //     },
+    //   ];
+    // });
+    // setSubmitted(true);
+
+    setSubmitted(true);
+  };
   console.log(resume);
   useEffect(() => {
     console.log(id);
@@ -100,23 +117,7 @@ export default function Resume({ jobs, user }) {
         });
     }
   }, [inputs, submitted]);
-  const handleAppSubmit = (e) => {
-    //process
 
-    // setApplications((prev) => {
-    //   return [
-    //     ...prev,
-    //     {
-    //       EMP_ID: 3,
-    //       JOB_ID: parseInt(id),
-    //       status: "Pending",
-    //     },
-    //   ];
-    // });
-    // setSubmitted(true);
-
-    setSubmitted(true);
-  };
   const handleAppResumeSubmit = () => {
     var formData = new FormData();
     var CV = document.querySelector("#file1");
